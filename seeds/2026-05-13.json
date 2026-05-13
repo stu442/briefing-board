@@ -1,0 +1,81 @@
+{
+  "date": "2026-05-13 수요일",
+  "slug": "2026-05-13",
+  "title": "2026-05-13 수요일 브리핑",
+  "summary": "일정 0건, 중요 메일 1건, 읽을거리 다수",
+  "tags": ["calendar", "mail", "news", "market"],
+  "createdAt": "2026-05-13 09:16 KST",
+  "sections": {
+    "calendar": [],
+    "importantMail": [
+      {
+        "title": "Google Developer Program — 카페인 ✅ 카페인 추가 ✅ IO 등록 🤔",
+        "note": "Google I/O가 일주일 앞으로 다가왔다는 안내 메일. 큰 액션 아이템은 없지만 이벤트/세션 체크용으로 가볍게 훑어볼 만함."
+      }
+    ],
+    "inboxPicks": [
+      {
+        "title": "(광고)👛5월 긴축재정! 돈 너무 많이 쓰신 분들 이거 한번 해보세요",
+        "note": "소비 점검/취향 기반 소비 이야기. 아침에 가볍게 훑기용."
+      },
+      {
+        "title": "\"AI에 취하지도, 모른 척하지도 마세요\" 클로드 코드 PM의 권고",
+        "note": "AI와 제품/개발 생산성 관점에서 가장 현재 관심사에 가까운 읽을거리. 우선순위 높음."
+      },
+      {
+        "title": "집값보다 호갱노노가 문제입니다.",
+        "note": "비교와 인식 프레임에 대한 에세이성 글. 사고 확장용."
+      }
+    ],
+    "geekNews": [
+      {
+        "title": "Rust 백엔드 DB 라이브러리 4종 비교",
+        "url": "https://aarambhdevhub.medium.com/rust-orms-in-2026-diesel-vs-sqlx-vs-seaorm-vs-rusqlite-which-one-should-you-actually-use-706d0fe912f3",
+        "note": "Rust 백엔드에서 ORM/DB 접근 라이브러리 선택 기준 정리."
+      },
+      {
+        "title": "Claude Code 에도 /goal 기능 추가",
+        "url": "https://code.claude.com/docs/ko/goal",
+        "note": "목표 기반 자동 반복 실행 기능. 에이전트 워크플로우 관심사와 직접 연결됨."
+      },
+      {
+        "title": "Rapid-MLX - Apple Silicon 전용 초고속 로컬 AI 엔진",
+        "url": "https://github.com/raullenchai/Rapid-MLX",
+        "note": "로컬 AI 실행 성능 관심 있으면 체크할 만한 프로젝트."
+      }
+    ],
+    "hackerNews": [
+      {
+        "title": "Googlebook",
+        "url": "https://googlebook.google/",
+        "note": "가볍게 눌러볼 만한 웹 인터랙션/실험성 링크."
+      },
+      {
+        "title": "CERT is releasing six CVEs for serious security vulnerabilities in dnsmasq",
+        "url": "https://lists.thekelleys.org.uk/pipermail/dnsmasq-discuss/2026q2/018471.html",
+        "note": "홈서버/네트워크 환경 운영한다면 체크 가치 있는 보안 이슈."
+      },
+      {
+        "title": "How to make your text look futuristic (2016)",
+        "url": "https://typesetinthefuture.com/2016/02/18/futuristic/",
+        "note": "디자인/타이포그래피 감각용으로 재밌게 보기 좋은 글."
+      }
+    ],
+    "market": [
+      {
+        "title": "v1 placeholder",
+        "note": "시장 데이터 연동은 다음 단계에서 붙일 예정. BTC, ETH, VOO, QLD, QQQM, JEPI, JEPQ, USD/KRW, JPY/KRW 지원 구조로 갈 계획."
+      }
+    ],
+    "focus": [
+      {
+        "title": "브리핑 보드 v1 가동 확인",
+        "note": "오늘은 사이트 열람 흐름과 텔레그램 링크 전달 UX를 먼저 체감해보기."
+      },
+      {
+        "title": "AI/에이전트 읽을거리 1개만 깊게 보기",
+        "note": "클로드 코드 /goal 관련 글이나 에이전트 관리 관련 글 중 하나만 골라 집중."
+      }
+    ]
+  }
+}

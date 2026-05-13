@@ -1,0 +1,39 @@
+# dependencies
+node_modules/
+
+# next build output
+.next/
+out/
+
+# local runtime / generated mutable data
+runtime/
+data/*.db
+data/*.db-shm
+data/*.db-wal
+
+# env / secrets
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+
+# logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+*.log
+
+# system / editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# temp / coverage
+coverage/
+.tmp/
+tmp/

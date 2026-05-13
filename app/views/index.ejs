@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title><%= pageTitle %></title>
+    <link rel="stylesheet" href="/assets/style.css" />
+  </head>
+  <body>
+    <main class="container">
+      <header class="hero">
+        <p class="eyebrow">Tailscale 내부 전용</p>
+        <h1>민수 브리핑</h1>
+        <p class="hero-summary">매일 쌓이는 개인 브리핑 게시판. 텔레그램은 입구, 읽기는 여기서.</p>
+        <p class="meta">최근 렌더링 · <%= generatedAt %></p>
+      </header>
+
+      <section class="board-grid">
+        <% if (!briefings.length) { %>
+          <article class="card empty-card">
+            <h2>아직 브리핑이 없어</h2>
+            <p class="muted">generate 스크립트로 오늘 브리핑을 넣으면 여기 쌓여.</p>
+          </article>
+        <% } %>
+
+        <% briefings.forEach((briefing) => { %>
+          <article class="card briefing-card">
+            <p class="eyebrow"><%= briefing.briefing_date %></p>
+            <h2><%= briefing.title %></h2>
+            <p><%= briefing.summary %></p>
+            <div class="tag-row">
+              <% briefing.tags.forEach((tag) => { %>
+                <span class="tag"><%= tag %></span>
+              <% }) %>
+            </div>
+            <a class="primary-link" href="/<%= briefing.html_path.replace(/^\/+/, '') %>">브리핑 보기 →</a>
+          </article>
+        <% }) %>
+      </section>
+    </main>
+  </body>
+</html>

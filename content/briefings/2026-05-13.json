@@ -1,0 +1,293 @@
+{
+  "date": "2026-05-13 수요일",
+  "slug": "2026-05-13",
+  "sections": {
+    "market": [
+      {
+        "title": "BTC · BTC-USD",
+        "note": "$81162.52 (+0.85%)",
+        "market": {
+          "displayName": "BTC",
+          "assetType": "crypto",
+          "symbol": "BTC-USD",
+          "currency": "USD",
+          "price": 81162.52,
+          "previousClose": 80477.49,
+          "changePct": 0.85,
+          "priceText": "$81162.52",
+          "changeText": "+0.85%",
+          "rsi14": 61.7,
+          "rsiState": "중립권",
+          "ma20": 79172.4,
+          "ma60": 74016.84,
+          "ma120": 74604.13
+        }
+      },
+      {
+        "title": "ETH · ETH-USD",
+        "note": "$2315.15 (+1.78%)",
+        "market": {
+          "displayName": "ETH",
+          "assetType": "crypto",
+          "symbol": "ETH-USD",
+          "currency": "USD",
+          "price": 2315.15,
+          "previousClose": 2274.64,
+          "changePct": 1.78,
+          "priceText": "$2315.15",
+          "changeText": "+1.78%",
+          "rsi14": 51.3,
+          "rsiState": "중립권",
+          "ma20": 2316.04,
+          "ma60": 2234.67,
+          "ma120": 2277.84
+        }
+      },
+      {
+        "title": "VOO · VOO",
+        "note": "$678.67 (-0.13%) · RSI 74.6 · 과열권 · MA20 659.97 / MA60 631.30 / MA120 630.40",
+        "market": {
+          "displayName": "VOO",
+          "assetType": "etf",
+          "symbol": "VOO",
+          "currency": "USD",
+          "price": 678.67,
+          "previousClose": 679.52,
+          "changePct": -0.13,
+          "priceText": "$678.67",
+          "changeText": "-0.13%",
+          "rsi14": 74.6,
+          "rsiState": "과열권",
+          "ma20": 659.97,
+          "ma60": 631.3,
+          "ma120": 630.4
+        }
+      },
+      {
+        "title": "QLD · QLD",
+        "note": "$90.69 (-1.70%) · RSI 77.4 · 과열권 · MA20 81.62 / MA60 71.06 / MA120 70.96",
+        "market": {
+          "displayName": "QLD",
+          "assetType": "etf",
+          "symbol": "QLD",
+          "currency": "USD",
+          "price": 90.69,
+          "previousClose": 92.26,
+          "changePct": -1.7,
+          "priceText": "$90.69",
+          "changeText": "-1.70%",
+          "rsi14": 77.4,
+          "rsiState": "과열권",
+          "ma20": 81.62,
+          "ma60": 71.06,
+          "ma120": 70.96
+        }
+      },
+      {
+        "title": "QQQM · QQQM",
+        "note": "$291.14 (-0.88%) · RSI 77.7 · 과열권 · MA20 275.66 / MA60 256.10 / MA120 254.95",
+        "market": {
+          "displayName": "QQQM",
+          "assetType": "etf",
+          "symbol": "QQQM",
+          "currency": "USD",
+          "price": 291.14,
+          "previousClose": 293.71,
+          "changePct": -0.88,
+          "priceText": "$291.14",
+          "changeText": "-0.88%",
+          "rsi14": 77.7,
+          "rsiState": "과열권",
+          "ma20": 275.66,
+          "ma60": 256.1,
+          "ma120": 254.95
+        }
+      },
+      {
+        "title": "JEPI · JEPI",
+        "note": "$56.08 (+0.41%) · RSI 37.5 · 중립권 · MA20 57.00 / MA60 57.52 / MA120 57.70",
+        "market": {
+          "displayName": "JEPI",
+          "assetType": "etf",
+          "symbol": "JEPI",
+          "currency": "USD",
+          "price": 56.08,
+          "previousClose": 55.85,
+          "changePct": 0.41,
+          "priceText": "$56.08",
+          "changeText": "+0.41%",
+          "rsi14": 37.5,
+          "rsiState": "중립권",
+          "ma20": 57,
+          "ma60": 57.52,
+          "ma120": 57.7
+        }
+      },
+      {
+        "title": "JEPQ · JEPQ",
+        "note": "$59.66 (-0.10%) · RSI 68.0 · 중립권 · MA20 59.02 / MA60 57.64 / MA120 58.06",
+        "market": {
+          "displayName": "JEPQ",
+          "assetType": "etf",
+          "symbol": "JEPQ",
+          "currency": "USD",
+          "price": 59.66,
+          "previousClose": 59.72,
+          "changePct": -0.1,
+          "priceText": "$59.66",
+          "changeText": "-0.10%",
+          "rsi14": 68,
+          "rsiState": "중립권",
+          "ma20": 59.02,
+          "ma60": 57.64,
+          "ma120": 58.06
+        }
+      },
+      {
+        "title": "USD/KRW",
+        "note": "1489.770원 (+1.04%) · 전일 대비 환율 변화",
+        "market": {
+          "displayName": "USD/KRW",
+          "assetType": "fx",
+          "symbol": "KRW=X",
+          "currency": "KRW",
+          "price": 1489.77,
+          "previousClose": 1474.45,
+          "changePct": 1.04,
+          "priceText": "1489.770원",
+          "changeText": "+1.04%",
+          "rsi14": 55.9,
+          "rsiState": "중립권",
+          "ma20": 1472.85,
+          "ma60": 1477.02,
+          "ma120": 1467.61
+        }
+      },
+      {
+        "title": "JPY/KRW",
+        "note": "9.420원 (+0.52%) · 전일 대비 환율 변화",
+        "market": {
+          "displayName": "JPY/KRW",
+          "assetType": "fx",
+          "symbol": "JPYKRW=X",
+          "currency": "KRW",
+          "price": 9.42,
+          "previousClose": 9.371,
+          "changePct": 0.52,
+          "priceText": "9.420원",
+          "changeText": "+0.52%",
+          "rsi14": 58.2,
+          "rsiState": "중립권",
+          "ma20": 9.3,
+          "ma60": 9.34,
+          "ma120": 9.34
+        }
+      }
+    ],
+    "calendar": [
+      {
+        "title": "오늘 일정은 비어 있음",
+        "note": "캘린더에 등록된 일정이 없습니다."
+      }
+    ],
+    "importantMail": [
+      {
+        "title": "카페인 ✅ 카페인 추가 ✅ IO 등록 🤔",
+        "note": "Google Developer Program <googledev-noreply@google.com> · Google I/O가 일주일 앞으로 다가왔습니다."
+      }
+    ],
+    "inboxPicks": [
+      {
+        "title": "\"AI에 취하지도, 모른 척하지도 마세요\" 클로드 코드 PM의 권고",
+        "note": "조쉬의 뉴스레터 · 출시 주기를 6개월에서 1주로 줄인 앤트로픽 PM 캣 우 인터뷰. AI 활용 태도와 제품 출시 속도 관점에서 가장 먼저 볼 만함."
+      },
+      {
+        "title": "[News Hub] 오늘의 테크 뉴스 - 2026-05-13",
+        "note": "News Hub · 오늘의 테크 뉴스 29개 요약본. 아침에 링크 훑으며 관심 주제만 골라 담기 좋음."
+      },
+      {
+        "title": "실리콘밸리는 왜 직원에게 '주식'을 줄까",
+        "note": "미라클레터 · 보상 구조와 동기부여 관점의 읽을거리. 커리어/조직 설계 시각으로 가볍게 보기 좋음."
+      },
+      {
+        "title": "집값보다 호갱노노가 문제입니다.",
+        "note": "북토크 · 비교와 인식 프레임에 대한 에세이성 글. 아침에 사고 넓히기용으로 무난함."
+      }
+    ],
+    "geekNews": [
+      {
+        "title": "Claude Code 에도 /goal 기능 추가",
+        "url": "https://code.claude.com/docs/ko/goal",
+        "note": "목표 완료까지 여러 턴을 자동으로 이어가는 기능. 에이전트 워크플로우 관심사와 바로 연결됨."
+      },
+      {
+        "title": "Claude Code, 여러 에이전트를 한 화면에서 관리하는 'Agent View' 공개",
+        "url": "https://code.claude.com/docs/en/agent-view",
+        "note": "백그라운드 에이전트 세션을 한 화면에서 발사·감시·응답하는 흐름 소개. 운영 UX 참고용으로 좋음."
+      },
+      {
+        "title": "Rapid-MLX - Apple Silicon 전용 초고속 로컬 AI 엔진",
+        "url": "https://github.com/raullenchai/Rapid-MLX",
+        "note": "애플 실리콘에서 로컬 AI 추론 성능을 크게 끌어올리는 프로젝트. 맥 기반 로컬 AI 관심 있으면 체크."
+      },
+      {
+        "title": "Rust 백엔드 DB 라이브러리 4종 비교",
+        "url": "https://aarambhdevhub.medium.com/rust-orms-in-2026-diesel-vs-sqlx-vs-seaorm-vs-rusqlite-which-one-should-you-actually-use-706d0fe912f3",
+        "note": "Diesel, SQLx, SeaORM, Rusqlite 비교. Rust 백엔드 설계 감각 정리용으로 괜찮음."
+      }
+    ],
+    "hackerNews": [
+      {
+        "title": "CERT is releasing six CVEs for serious security vulnerabilities in dnsmasq",
+        "url": "https://lists.thekelleys.org.uk/pipermail/dnsmasq-discuss/2026q2/018471.html",
+        "discussionUrl": "https://news.ycombinator.com/item?id=48112042",
+        "originalUrl": "https://lists.thekelleys.org.uk/pipermail/dnsmasq-discuss/2026q2/018471.html",
+        "note": "HN 219점 · 홈서버나 라우터에 dnsmasq 계열을 쓰면 바로 영향 범위 확인할 만한 보안 이슈."
+      },
+      {
+        "title": "Show HN: Needle: We Distilled Gemini Tool Calling into a 26M Model",
+        "url": "https://github.com/cactus-compute/needle",
+        "discussionUrl": "https://news.ycombinator.com/item?id=48111896",
+        "originalUrl": "https://github.com/cactus-compute/needle",
+        "note": "HN 256점 · 툴콜링을 소형 모델로 압축한 사례. 에이전트 비용/경량화 감각 잡기에 좋음."
+      },
+      {
+        "title": "Quack: The DuckDB Client-Server Protocol",
+        "url": "https://duckdb.org/2026/05/12/quack-remote-protocol",
+        "discussionUrl": "https://news.ycombinator.com/item?id=48111765",
+        "originalUrl": "https://duckdb.org/2026/05/12/quack-remote-protocol",
+        "note": "HN 169점 · DuckDB 원격 프로토콜 공개. 분석 파이프라인이나 임베디드 DB 활용에 참고할 포인트가 많음."
+      },
+      {
+        "title": "Learning Software Architecture",
+        "url": "https://matklad.github.io/2026/05/12/software-architecture.html",
+        "discussionUrl": "https://news.ycombinator.com/item?id=48106024",
+        "originalUrl": "https://matklad.github.io/2026/05/12/software-architecture.html",
+        "note": "HN 520점 · 소프트웨어 아키텍처를 어떻게 익히고 체화할지 정리한 글. 오늘의 장문 1순위 후보."
+      }
+    ],
+    "focus": [
+      {
+        "title": "Google I/O 체크 10분",
+        "note": "중요 메일에 들어온 Google Developer Program 안내에서 세션·등록 상태만 빠르게 확인."
+      },
+      {
+        "title": "AI/에이전트 읽을거리 1개만 깊게 보기",
+        "note": "GeekNews의 /goal·Agent View 쪽이나 HN의 Tool Calling 글 중 하나만 골라 메모 남기기."
+      },
+      {
+        "title": "홈서버 네트워크 보안 점검",
+        "note": "dnsmasq CVE 이슈가 떠서 공유기·서버 구성에서 영향 있는지 확인해둘 만함."
+      }
+    ]
+  },
+  "title": "2026-05-13 수요일 브리핑",
+  "summary": "일정 0건, 중요 메일 1건, 읽을거리 8건",
+  "tags": [
+    "calendar",
+    "mail",
+    "news",
+    "market"
+  ],
+  "createdAt": "2026-05-13 09:36 KST"
+}
