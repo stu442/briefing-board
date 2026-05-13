@@ -119,10 +119,10 @@ function MarketCard({ item }: { item: BriefingItem }) {
   const TrendIcon = tone.icon;
 
   return (
-    <article className={`rounded-2xl border p-4 shadow-sm ${tone.card}`}>
+    <article className={`min-w-0 overflow-hidden rounded-2xl border p-4 shadow-sm ${tone.card}`}>
       <div className="flex items-start justify-between gap-3">
-        <div>
-          <div className="flex items-center gap-2">
+        <div className="min-w-0 flex-1">
+          <div className="flex flex-wrap items-center gap-2">
             <p className="text-base font-semibold text-foreground">{market.displayName}</p>
             <Badge variant="outline" className="rounded-full px-2 py-0.5 text-[11px] uppercase tracking-wide text-muted-foreground">
               {market.symbol}
@@ -132,21 +132,21 @@ function MarketCard({ item }: { item: BriefingItem }) {
             {market.assetType === 'crypto' ? 'Crypto' : market.assetType === 'etf' ? 'ETF' : 'FX'}
           </p>
         </div>
-        <Badge variant="outline" className={`rounded-full px-2.5 py-1 text-xs ${tone.badge}`}>
+        <Badge variant="outline" className={`shrink-0 rounded-full px-2.5 py-1 text-xs ${tone.badge}`}>
           <TrendIcon className="mr-1 size-3.5" /> {market.changeText}
         </Badge>
       </div>
 
-      <div className="mt-4 flex items-end justify-between gap-3">
-        <div>
-          <p className="text-2xl font-semibold tracking-tight text-foreground">{market.priceText}</p>
+      <div className="mt-4 flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between sm:gap-3">
+        <div className="min-w-0">
+          <p className="break-all text-2xl font-semibold tracking-tight text-foreground">{market.priceText}</p>
           <p className={`mt-1 text-sm ${tone.text}`}>
             전일 종가 {formatMetric(market.previousClose, market.assetType === 'fx' ? 3 : 2)}
           </p>
         </div>
-        <div className="min-w-[92px] text-right text-xs text-muted-foreground">
+        <div className="min-w-0 text-left text-xs text-muted-foreground sm:min-w-[92px] sm:text-right">
           <p>30일 흐름</p>
-          <p>{history.length ? `${history[0]?.market_date} → ${history[history.length - 1]?.market_date}` : '데이터 준비 중'}</p>
+          <p className="break-words">{history.length ? `${history[0]?.market_date} → ${history[history.length - 1]?.market_date}` : '데이터 준비 중'}</p>
         </div>
       </div>
 
@@ -185,7 +185,7 @@ function MarketGrid({ items, emptyMessage }: { items?: BriefingItem[]; emptyMess
     return <p className="text-sm leading-6 text-muted-foreground">{emptyMessage}</p>;
   }
 
-  return <div className="grid gap-4 md:grid-cols-2 2xl:grid-cols-3">{items.map((item) => <MarketCard key={`${item.title}-${item.market?.symbol ?? ''}`} item={item} />)}</div>;
+  return <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">{items.map((item) => <MarketCard key={`${item.title}-${item.market?.symbol ?? ''}`} item={item} />)}</div>;
 }
 
 function BriefingList({ sectionKey, items, emptyMessage }: { sectionKey: keyof BriefingSections; items?: BriefingItem[]; emptyMessage: string }) {
@@ -254,7 +254,7 @@ export default async function BriefingDetailPage({ params }: { params: Promise<{
 
       <section className="mt-6 grid gap-4 xl:grid-cols-2">
         {sectionOrder.map((sectionKey) => (
-          <Card key={sectionKey} className={sectionKey === 'focus' ? 'xl:col-span-2' : ''}>
+          <Card key={sectionKey} className={sectionKey === 'focus' || sectionKey === 'market' ? 'xl:col-span-2' : ''}>
             <CardHeader>
               <CardTitle>{sectionLabels[sectionKey]}</CardTitle>
               <CardDescription>{sectionKey === 'market' ? 'SQLite 시계열과 함께 누적되는 마켓 카드' : '오늘 날짜 페이지에 누적되는 섹션'}</CardDescription>
