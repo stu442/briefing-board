@@ -5,6 +5,12 @@ import { getAdjacentBriefings, getBriefingMetaBySlug, listBriefings, type Briefi
 
 export type MarketAssetType = 'crypto' | 'etf' | 'fx';
 
+export type MarketCommentary = {
+  statusTags: string[];
+  commentary: string;
+  reflectionQuestion: string;
+};
+
 export type MarketSnapshot = {
   displayName: string;
   assetType: MarketAssetType;
@@ -20,6 +26,7 @@ export type MarketSnapshot = {
   ma20?: number | null;
   ma60?: number | null;
   ma120?: number | null;
+  commentary?: MarketCommentary;
 };
 
 export type BriefingItem = {

@@ -6,8 +6,9 @@ import { Badge } from '@/components/ui/badge';
 import { LinkButton } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
+import { buildMarketCommentary } from '@/lib/market-commentary';
 import { getMarketHistory } from '@/lib/db';
-import { getBriefingDocument, getBriefingPath, normalizeBriefingSlug, sectionLabels, sectionOrder, type BriefingItem, type BriefingSections, type MarketSnapshot } from '@/lib/briefings';
+import { getBriefingDocument, getBriefingPath, normalizeBriefingSlug, sectionLabels, sectionOrder, type BriefingItem, type BriefingSections } from '@/lib/briefings';
 
 export const dynamic = 'force-dynamic';
 
@@ -117,6 +118,7 @@ function MarketCard({ item }: { item: BriefingItem }) {
   const history = getMarketHistory(market.symbol, 30);
   const values = history.map((row) => row.close_price);
   const TrendIcon = tone.icon;
+  const marketCommentary = market.commentary ?? buildMarketCommentary(market);
 
   return (
     <article className={`min-w-0 overflow-hidden rounded-2xl border p-4 shadow-sm ${tone.card}`}>
@@ -155,6 +157,11 @@ function MarketCard({ item }: { item: BriefingItem }) {
       </div>
 
       <div className="mt-3 flex flex-wrap gap-2">
+        {marketCommentary.statusTags.map((tag) => (
+          <Badge key={tag} variant="outline" className="rounded-full px-2.5 py-1 text-xs text-muted-foreground">
+            {tag}
+          </Badge>
+        ))}
         {market.rsi14 != null ? (
           <Badge variant="outline" className={`rounded-full px-2.5 py-1 text-xs ${getRsiTone(market.rsiState)}`}>
             RSI {market.rsi14.toFixed(1)} · {market.rsiState}
@@ -175,6 +182,17 @@ function MarketCard({ item }: { item: BriefingItem }) {
             MA120 {market.ma120.toFixed(2)}
           </Badge>
         ) : null}
+      </div>
+
+      <div className="mt-4 space-y-3 rounded-xl border border-white/10 bg-black/10 p-3">
+        <div className="space-y-1">
+          <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-muted-foreground">코멘트</p>
+          <p className="text-sm leading-6 text-foreground/90">{marketCommentary.commentary}</p>
+        </div>
+        <div className="space-y-1">
+          <p className="text-[11px] font-semibold uppercase tracking-[0.18em] text-muted-foreground">체크</p>
+          <p className="text-sm leading-6 text-muted-foreground">{marketCommentary.reflectionQuestion}</p>
+        </div>
       </div>
     </article>
   );

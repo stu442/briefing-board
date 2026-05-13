@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Briefing Workflow AI Commentary</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
+    <style>
+      :root {
+        --bg: #020617;
+        --panel: rgba(15, 23, 42, 0.88);
+        --panel-2: rgba(15, 23, 42, 0.72);
+        --line: #1e293b;
+        --text: #e2e8f0;
+        --muted: #94a3b8;
+        --cyan: #22d3ee;
+        --emerald: #34d399;
+        --violet: #a78bfa;
+        --amber: #fbbf24;
+        --rose: #fb7185;
+        --orange: #fb923c;
+        --slate: #94a3b8;
+      }
+
+      * { box-sizing: border-box; }
+      body {
+        margin: 0;
+        font-family: 'JetBrains Mono', monospace;
+        background:
+          linear-gradient(rgba(2, 6, 23, 0.93), rgba(2, 6, 23, 0.97)),
+          linear-gradient(90deg, rgba(30, 41, 59, 0.55) 1px, transparent 1px),
+          linear-gradient(rgba(30, 41, 59, 0.55) 1px, transparent 1px);
+        background-size: auto, 40px 40px, 40px 40px;
+        color: var(--text);
+      }
+
+      .wrap {
+        max-width: 1560px;
+        margin: 0 auto;
+        padding: 32px 20px 48px;
+      }
+
+      .hero {
+        border: 1px solid rgba(148, 163, 184, 0.2);
+        border-radius: 24px;
+        background: linear-gradient(180deg, rgba(15, 23, 42, 0.94), rgba(15, 23, 42, 0.78));
+        padding: 24px 24px 18px;
+        box-shadow: 0 20px 80px rgba(0, 0, 0, 0.35);
+      }
+
+      .eyebrow {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        color: var(--muted);
+        font-size: 12px;
+        border: 1px solid rgba(148, 163, 184, 0.18);
+        border-radius: 999px;
+        padding: 6px 12px;
+        background: rgba(15, 23, 42, 0.66);
+      }
+
+      .pulse {
+        width: 8px;
+        height: 8px;
+        border-radius: 999px;
+        background: var(--emerald);
+        box-shadow: 0 0 0 0 rgba(52, 211, 153, 0.75);
+        animation: pulse 1.8s infinite;
+      }
+
+      @keyframes pulse {
+        0% { box-shadow: 0 0 0 0 rgba(52, 211, 153, 0.8); }
+        70% { box-shadow: 0 0 0 10px rgba(52, 211, 153, 0); }
+        100% { box-shadow: 0 0 0 0 rgba(52, 211, 153, 0); }
+      }
+
+      h1 {
+        margin: 18px 0 10px;
+        font-size: clamp(28px, 4vw, 44px);
+        line-height: 1.12;
+      }
+
+      .lead {
+        max-width: 1040px;
+        color: var(--muted);
+        font-size: 14px;
+        line-height: 1.8;
+        margin: 0;
+      }
+
+      .legend-inline {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-top: 18px;
+      }
+
+      .chip {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 7px 12px;
+        border-radius: 999px;
+        border: 1px solid rgba(148, 163, 184, 0.18);
+        background: rgba(15, 23, 42, 0.7);
+        color: var(--muted);
+        font-size: 11px;
+      }
+
+      .dot { width: 9px; height: 9px; border-radius: 999px; }
+      .cyan { background: var(--cyan); }
+      .emerald { background: var(--emerald); }
+      .violet { background: var(--violet); }
+      .amber { background: var(--amber); }
+      .rose { background: var(--rose); }
+      .slate { background: var(--slate); }
+      .orange { background: var(--orange); }
+
+      .diagram-card {
+        margin-top: 22px;
+        border-radius: 24px;
+        border: 1px solid rgba(148, 163, 184, 0.16);
+        background: rgba(2, 6, 23, 0.72);
+        padding: 14px;
+        overflow-x: auto;
+      }
+
+      svg {
+        width: 100%;
+        min-width: 1440px;
+        height: auto;
+        display: block;
+      }
+
+      .cards {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 16px;
+        margin-top: 18px;
+      }
+
+      .card {
+        border-radius: 20px;
+        border: 1px solid rgba(148, 163, 184, 0.16);
+        background: var(--panel);
+        padding: 18px;
+      }
+
+      .card h3 {
+        margin: 0 0 12px;
+        font-size: 15px;
+      }
+
+      .card p,
+      .card li {
+        color: var(--muted);
+        font-size: 12px;
+        line-height: 1.75;
+      }
+
+      .card ul {
+        margin: 0;
+        padding-left: 18px;
+      }
+
+      .footer {
+        margin-top: 16px;
+        color: var(--muted);
+        font-size: 11px;
+      }
+
+      @media (max-width: 980px) {
+        .cards { grid-template-columns: 1fr; }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <section class="hero">
+        <div class="eyebrow"><span class="pulse"></span> Daily Briefing Workflow</div>
+        <h1>민수 브리핑 생성 흐름 + AI 마켓 코멘트가 들어갈 위치</h1>
+        <p class="lead">
+          이 다이어그램은 현재 브리핑 보드가 어떤 입력을 받아서 JSON/SQLite/Next.js 렌더링으로 흘러가는지,
+          그리고 앞으로 원하는 <strong>“AI가 매일 상황을 보고 마켓 코멘트를 생성하는 단계”</strong>가 정확히 어디에 붙는지를 한 화면에 정리한 거야.
+        </p>
+        <div class="legend-inline">
+          <span class="chip"><span class="dot cyan"></span> Agent / Cron / Prompt</span>
+          <span class="chip"><span class="dot emerald"></span> Node Scripts / Processing</span>
+          <span class="chip"><span class="dot violet"></span> Storage / Canonical Data</span>
+          <span class="chip"><span class="dot amber"></span> Web / Delivery</span>
+          <span class="chip"><span class="dot rose"></span> AI Commentary Layer</span>
+          <span class="chip"><span class="dot slate"></span> External Source</span>
+        </div>
+      </section>
+
+      <section class="diagram-card">
+        <svg viewBox="0 0 1480 980" role="img" aria-label="Daily briefing workflow architecture diagram">
+          <defs>
+            <marker id="arrow-cyan" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto">
+              <polygon points="0,0 10,5 0,10" fill="#22d3ee"></polygon>
+            </marker>
+            <marker id="arrow-emerald" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto">
+              <polygon points="0,0 10,5 0,10" fill="#34d399"></polygon>
+            </marker>
+            <marker id="arrow-violet" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto">
+              <polygon points="0,0 10,5 0,10" fill="#a78bfa"></polygon>
+            </marker>
+            <marker id="arrow-amber" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto">
+              <polygon points="0,0 10,5 0,10" fill="#fbbf24"></polygon>
+            </marker>
+            <marker id="arrow-rose" markerWidth="10" markerHeight="10" refX="9" refY="5" orient="auto">
+              <polygon points="0,0 10,5 0,10" fill="#fb7185"></polygon>
+            </marker>
+          </defs>
+
+          <rect x="24" y="24" width="1432" height="932" rx="24" fill="rgba(15,23,42,0.42)" stroke="#1e293b" stroke-width="1.2"></rect>
+
+          <!-- lane labels -->
+          <text x="52" y="84" fill="#94a3b8" font-size="13" font-weight="700">1. Inputs / Schedules</text>
+          <text x="52" y="332" fill="#94a3b8" font-size="13" font-weight="700">2. Processing / Merge</text>
+          <text x="52" y="624" fill="#94a3b8" font-size="13" font-weight="700">3. Storage / Rendering</text>
+
+          <!-- section boundaries -->
+          <rect x="40" y="96" width="1400" height="192" rx="20" fill="rgba(30,41,59,0.15)" stroke="#334155" stroke-dasharray="6 6"></rect>
+          <rect x="40" y="344" width="1400" height="236" rx="20" fill="rgba(30,41,59,0.15)" stroke="#334155" stroke-dasharray="6 6"></rect>
+          <rect x="40" y="636" width="1400" height="280" rx="20" fill="rgba(30,41,59,0.15)" stroke="#334155" stroke-dasharray="6 6"></rect>
+
+          <!-- arrows behind nodes -->
+          <path d="M 250 175 C 305 175, 315 175, 370 175" fill="none" stroke="#22d3ee" stroke-width="2.5" marker-end="url(#arrow-cyan)"></path>
+          <path d="M 250 235 C 305 235, 315 235, 370 235" fill="none" stroke="#22d3ee" stroke-width="2.5" marker-end="url(#arrow-cyan)"></path>
+          <path d="M 620 175 C 678 175, 692 175, 750 175" fill="none" stroke="#22d3ee" stroke-width="2.5" marker-end="url(#arrow-cyan)"></path>
+          <path d="M 620 235 C 678 235, 692 235, 750 235" fill="none" stroke="#22d3ee" stroke-width="2.5" marker-end="url(#arrow-cyan)"></path>
+          <path d="M 1000 175 C 1048 175, 1068 175, 1118 175" fill="none" stroke="#34d399" stroke-width="2.5" marker-end="url(#arrow-emerald)"></path>
+          <path d="M 1000 235 C 1048 235, 1068 235, 1118 235" fill="none" stroke="#34d399" stroke-width="2.5" marker-end="url(#arrow-emerald)"></path>
+          <path d="M 1248 175 C 1288 175, 1294 265, 1294 385" fill="none" stroke="#34d399" stroke-width="2.5" marker-end="url(#arrow-emerald)"></path>
+
+          <path d="M 250 455 C 302 455, 310 455, 360 455" fill="none" stroke="#34d399" stroke-width="2.5" marker-end="url(#arrow-emerald)"></path>
+          <path d="M 590 455 C 642 455, 650 455, 700 455" fill="none" stroke="#34d399" stroke-width="2.5" marker-end="url(#arrow-emerald)"></path>
+          <path d="M 930 455 C 980 455, 995 455, 1042 455" fill="none" stroke="#34d399" stroke-width="2.5" marker-end="url(#arrow-emerald)"></path>
+          <path d="M 1142 455 C 1188 455, 1204 455, 1248 455" fill="none" stroke="#34d399" stroke-width="2.5" marker-end="url(#arrow-emerald)"></path>
+          <path d="M 825 540 C 825 600, 825 640, 825 700" fill="none" stroke="#a78bfa" stroke-width="2.5" marker-end="url(#arrow-violet)"></path>
+          <path d="M 1095 540 C 1095 600, 1095 640, 1095 700" fill="none" stroke="#a78bfa" stroke-width="2.5" marker-end="url(#arrow-violet)"></path>
+          <path d="M 250 780 C 332 780, 358 780, 438 780" fill="none" stroke="#fbbf24" stroke-width="2.5" marker-end="url(#arrow-amber)"></path>
+          <path d="M 678 780 C 760 780, 790 780, 870 780" fill="none" stroke="#fbbf24" stroke-width="2.5" marker-end="url(#arrow-amber)"></path>
+          <path d="M 1120 780 C 1200 780, 1220 780, 1300 780" fill="none" stroke="#fbbf24" stroke-width="2.5" marker-end="url(#arrow-amber)"></path>
+          <path d="M 820 238 C 820 300, 820 336, 820 398" fill="none" stroke="#fb7185" stroke-width="2.5" stroke-dasharray="7 6" marker-end="url(#arrow-rose)"></path>
+          <path d="M 820 504 C 820 540, 820 560, 820 592" fill="none" stroke="#fb7185" stroke-width="2.5" stroke-dasharray="7 6" marker-end="url(#arrow-rose)"></path>
+
+          <!-- top row nodes -->
+          <g>
+            <rect x="70" y="132" width="180" height="86" rx="12" fill="#0f172a"></rect>
+            <rect x="70" y="132" width="180" height="86" rx="12" fill="rgba(30,41,59,0.5)" stroke="#94a3b8" stroke-width="1.5"></rect>
+            <text x="88" y="160" fill="#e2e8f0" font-size="13" font-weight="700">External Sources</text>
+            <text x="88" y="186" fill="#94a3b8" font-size="10">• Google Calendar / Gmail</text>
+            <text x="88" y="204" fill="#94a3b8" font-size="10">• GeekNews / Hacker News</text>
+          </g>
+
+          <g>
+            <rect x="70" y="222" width="180" height="86" rx="12" fill="#0f172a"></rect>
+            <rect x="70" y="222" width="180" height="86" rx="12" fill="rgba(30,41,59,0.5)" stroke="#94a3b8" stroke-width="1.5"></rect>
+            <text x="88" y="250" fill="#e2e8f0" font-size="13" font-weight="700">Market APIs</text>
+            <text x="88" y="276" fill="#94a3b8" font-size="10">• yahoo-finance2</text>
+            <text x="88" y="294" fill="#94a3b8" font-size="10">• BTC / ETH / ETF / FX</text>
+          </g>
+
+          <g>
+            <rect x="370" y="132" width="250" height="86" rx="12" fill="#0f172a"></rect>
+            <rect x="370" y="132" width="250" height="86" rx="12" fill="rgba(8,51,68,0.4)" stroke="#22d3ee" stroke-width="1.5"></rect>
+            <text x="388" y="160" fill="#e2e8f0" font-size="13" font-weight="700">Cron: daily-morning-briefing</text>
+            <text x="388" y="186" fill="#94a3b8" font-size="10">6:00 KST · agent collects + summarizes</text>
+            <text x="388" y="204" fill="#94a3b8" font-size="10">calendar / mail / news / focus</text>
+          </g>
+
+          <g>
+            <rect x="370" y="222" width="250" height="86" rx="12" fill="#0f172a"></rect>
+            <rect x="370" y="222" width="250" height="86" rx="12" fill="rgba(8,51,68,0.4)" stroke="#22d3ee" stroke-width="1.5"></rect>
+            <text x="388" y="250" fill="#e2e8f0" font-size="13" font-weight="700">Cron: daily-market-briefing</text>
+            <text x="388" y="276" fill="#94a3b8" font-size="10">Mon / Wed / Fri 9:00 KST</text>
+            <text x="388" y="294" fill="#94a3b8" font-size="10">market patch + commentary stage</text>
+          </g>
+
+          <g>
+            <rect x="750" y="132" width="250" height="86" rx="12" fill="#0f172a"></rect>
+            <rect x="750" y="132" width="250" height="86" rx="12" fill="rgba(8,51,68,0.4)" stroke="#22d3ee" stroke-width="1.5"></rect>
+            <text x="768" y="160" fill="#e2e8f0" font-size="13" font-weight="700">Agent Output</text>
+            <text x="768" y="186" fill="#94a3b8" font-size="10">briefing seed / patch JSON</text>
+            <text x="768" y="204" fill="#94a3b8" font-size="10">title / summary / sections</text>
+          </g>
+
+          <g>
+            <rect x="750" y="222" width="250" height="86" rx="12" fill="#0f172a"></rect>
+            <rect x="750" y="222" width="250" height="86" rx="12" fill="rgba(136,19,55,0.4)" stroke="#fb7185" stroke-width="1.5"></rect>
+            <text x="768" y="250" fill="#e2e8f0" font-size="13" font-weight="700">AI Market Commentary</text>
+            <text x="768" y="276" fill="#94a3b8" font-size="10">desired next step</text>
+            <text x="768" y="294" fill="#94a3b8" font-size="10">daily context-aware commentary</text>
+          </g>
+
+          <g>
+            <rect x="1118" y="132" width="130" height="176" rx="12" fill="#0f172a"></rect>
+            <rect x="1118" y="132" width="130" height="176" rx="12" fill="rgba(6,78,59,0.4)" stroke="#34d399" stroke-width="1.5"></rect>
+            <text x="1136" y="162" fill="#e2e8f0" font-size="13" font-weight="700">Node Scripts</text>
+            <text x="1136" y="194" fill="#94a3b8" font-size="10">generate-briefing.js</text>
+            <text x="1136" y="212" fill="#94a3b8" font-size="10">update-market-data.js</text>
+            <text x="1136" y="230" fill="#94a3b8" font-size="10">merge-briefing.js</text>
+            <text x="1136" y="248" fill="#94a3b8" font-size="10">market-data.js</text>
+            <text x="1136" y="280" fill="#94a3b8" font-size="10">today = scripts</text>
+          </g>
+
+          <!-- middle row -->
+          <g>
+            <rect x="70" y="412" width="180" height="92" rx="12" fill="#0f172a"></rect>
+            <rect x="70" y="412" width="180" height="92" rx="12" fill="rgba(6,78,59,0.4)" stroke="#34d399" stroke-width="1.5"></rect>
+            <text x="88" y="442" fill="#e2e8f0" font-size="13" font-weight="700">fetchAllMarketSeries()</text>
+            <text x="88" y="468" fill="#94a3b8" font-size="10">collect raw market series</text>
+            <text x="88" y="486" fill="#94a3b8" font-size="10">BTC / ETH / ETFs / FX</text>
+          </g>
+
+          <g>
+            <rect x="360" y="412" width="230" height="92" rx="12" fill="#0f172a"></rect>
+            <rect x="360" y="412" width="230" height="92" rx="12" fill="rgba(6,78,59,0.4)" stroke="#34d399" stroke-width="1.5"></rect>
+            <text x="378" y="442" fill="#e2e8f0" font-size="13" font-weight="700">buildMarketPatch()</text>
+            <text x="378" y="468" fill="#94a3b8" font-size="10">price / changePct / RSI / MA20 / MA60 / MA120</text>
+            <text x="378" y="486" fill="#94a3b8" font-size="10">market section payload</text>
+          </g>
+
+          <g>
+            <rect x="700" y="388" width="250" height="148" rx="14" fill="#0f172a"></rect>
+            <rect x="700" y="388" width="250" height="148" rx="14" fill="rgba(136,19,55,0.4)" stroke="#fb7185" stroke-width="1.5"></rect>
+            <text x="718" y="418" fill="#e2e8f0" font-size="13" font-weight="700">AI Commentary Generation</text>
+            <text x="718" y="446" fill="#94a3b8" font-size="10">input:</text>
+            <text x="718" y="464" fill="#94a3b8" font-size="10">• symbol / assetType / price / RSI / MAs</text>
+            <text x="718" y="482" fill="#94a3b8" font-size="10">• optional daily news / context</text>
+            <text x="718" y="508" fill="#94a3b8" font-size="10">output:</text>
+            <text x="718" y="526" fill="#94a3b8" font-size="10">• statusTags[] / commentary / reflectionQuestion</text>
+          </g>
+
+          <g>
+            <rect x="1042" y="412" width="100" height="92" rx="12" fill="#0f172a"></rect>
+            <rect x="1042" y="412" width="100" height="92" rx="12" fill="rgba(6,78,59,0.4)" stroke="#34d399" stroke-width="1.5"></rect>
+            <text x="1060" y="442" fill="#e2e8f0" font-size="13" font-weight="700">Patch</text>
+            <text x="1060" y="468" fill="#94a3b8" font-size="10">temp JSON</text>
+            <text x="1060" y="486" fill="#94a3b8" font-size="10">/tmp</text>
+          </g>
+
+          <g>
+            <rect x="1248" y="412" width="120" height="92" rx="12" fill="#0f172a"></rect>
+            <rect x="1248" y="412" width="120" height="92" rx="12" fill="rgba(6,78,59,0.4)" stroke="#34d399" stroke-width="1.5"></rect>
+            <text x="1266" y="442" fill="#e2e8f0" font-size="13" font-weight="700">merge-briefing</text>
+            <text x="1266" y="468" fill="#94a3b8" font-size="10">deepMerge existing</text>
+            <text x="1266" y="486" fill="#94a3b8" font-size="10">briefing JSON</text>
+          </g>
+
+          <!-- bottom row -->
+          <g>
+            <rect x="70" y="732" width="180" height="104" rx="12" fill="#0f172a"></rect>
+            <rect x="70" y="732" width="180" height="104" rx="12" fill="rgba(76,29,149,0.4)" stroke="#a78bfa" stroke-width="1.5"></rect>
+            <text x="88" y="762" fill="#e2e8f0" font-size="13" font-weight="700">content/briefings</text>
+            <text x="88" y="788" fill="#94a3b8" font-size="10">canonical daily JSON</text>
+            <text x="88" y="806" fill="#94a3b8" font-size="10">calendar / mail / news / market</text>
+            <text x="88" y="824" fill="#94a3b8" font-size="10">future AI commentary lives here</text>
+          </g>
+
+          <g>
+            <rect x="438" y="732" width="240" height="104" rx="12" fill="#0f172a"></rect>
+            <rect x="438" y="732" width="240" height="104" rx="12" fill="rgba(76,29,149,0.4)" stroke="#a78bfa" stroke-width="1.5"></rect>
+            <text x="456" y="762" fill="#e2e8f0" font-size="13" font-weight="700">SQLite</text>
+            <text x="456" y="788" fill="#94a3b8" font-size="10">briefings table = meta / navigation</text>
+            <text x="456" y="806" fill="#94a3b8" font-size="10">market_prices table = time series / sparkline</text>
+            <text x="456" y="824" fill="#94a3b8" font-size="10">upsertBriefing + upsertMarketPrices</text>
+          </g>
+
+          <g>
+            <rect x="870" y="732" width="250" height="104" rx="12" fill="#0f172a"></rect>
+            <rect x="870" y="732" width="250" height="104" rx="12" fill="rgba(120,53,15,0.3)" stroke="#fbbf24" stroke-width="1.5"></rect>
+            <text x="888" y="762" fill="#e2e8f0" font-size="13" font-weight="700">Next.js Rendering</text>
+            <text x="888" y="788" fill="#94a3b8" font-size="10">app/page.tsx = dashboard artifacts + briefings</text>
+            <text x="888" y="806" fill="#94a3b8" font-size="10">app/briefings/[slug]/page.tsx = market cards</text>
+            <text x="888" y="824" fill="#94a3b8" font-size="10">reads JSON + SQLite history</text>
+          </g>
+
+          <g>
+            <rect x="1300" y="732" width="110" height="104" rx="12" fill="#0f172a"></rect>
+            <rect x="1300" y="732" width="110" height="104" rx="12" fill="rgba(120,53,15,0.3)" stroke="#fbbf24" stroke-width="1.5"></rect>
+            <text x="1318" y="762" fill="#e2e8f0" font-size="13" font-weight="700">Delivery</text>
+            <text x="1318" y="788" fill="#94a3b8" font-size="10">Tailscale URL</text>
+            <text x="1318" y="806" fill="#94a3b8" font-size="10">Telegram = link hub</text>
+          </g>
+
+          <!-- callout -->
+          <g>
+            <rect x="1110" y="560" width="282" height="138" rx="16" fill="#0f172a"></rect>
+            <rect x="1110" y="560" width="282" height="138" rx="16" fill="rgba(8,51,68,0.18)" stroke="#22d3ee" stroke-width="1.5"></rect>
+            <text x="1130" y="590" fill="#e2e8f0" font-size="13" font-weight="700">How it feels in practice</text>
+            <text x="1130" y="618" fill="#94a3b8" font-size="10">현재: 수집은 agent + 계산은 scripts + 코멘트는 규칙 기반</text>
+            <text x="1130" y="636" fill="#94a3b8" font-size="10">원하는 방향: 수집은 유지 + 코멘트만 AI가 매일 해석</text>
+            <text x="1130" y="654" fill="#94a3b8" font-size="10">즉, “뼈대는 코드 / 해석은 AI” 하이브리드</text>
+            <text x="1130" y="680" fill="#94a3b8" font-size="10">이 다이어그램의 rose 블록이 앞으로 강화될 부분</text>
+          </g>
+        </svg>
+      </section>
+
+      <section class="cards">
+        <div class="card">
+          <h3><span class="dot cyan"></span> 지금 구조의 핵심</h3>
+          <ul>
+            <li>cron이 에이전트 태스크를 트리거한다.</li>
+            <li>에이전트는 캘린더/메일/뉴스를 모아 seed 또는 patch를 만든다.</li>
+            <li>Node 스크립트가 마켓 데이터, merge, 저장, 렌더용 메타 적재를 담당한다.</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3><span class="dot rose"></span> AI가 들어갈 정확한 위치</h3>
+          <ul>
+            <li><code>buildMarketPatch()</code> 직후 또는 merge 직전에 붙이는 게 가장 자연스럽다.</li>
+            <li>입력은 symbol, 가격, RSI, MA, 자산 역할, 필요 시 당일 뉴스 컨텍스트.</li>
+            <li>출력은 <code>statusTags</code>, <code>commentary</code>, <code>reflectionQuestion</code>.</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3><span class="dot amber"></span> 왜 이 방식이 좋은가</h3>
+          <ul>
+            <li>숫자 계산은 안정적으로 유지된다.</li>
+            <li>매일의 해석은 AI가 더 살아있게 만들어준다.</li>
+            <li>웹은 저장된 결과만 렌더하므로 빠르고 일관된 UX를 준다.</li>
+          </ul>
+        </div>
+      </section>
+
+      <p class="footer">Generated for the internal Tailscale briefing board · file: public/briefing-workflow-ai-commentary.html</p>
+    </div>
+  </body>
+</html>

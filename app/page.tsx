@@ -30,6 +30,7 @@ function prettifyArtifactTitle(fileName: string) {
 }
 
 function getArtifactDescription(fileName: string) {
+  if (fileName.includes('workflow')) return '브리핑이 수집·머지·저장·렌더링되는 흐름과 AI 코멘트가 들어갈 위치를 보여주는 워크플로우 다이어그램';
   if (fileName.includes('architecture')) return '브리핑 보드의 전체 구성, 데이터 흐름, cron 흐름을 보여주는 다이어그램';
   if (fileName.includes('erd')) return 'SQLite 테이블 구조와 JSON 문서 관계를 정리한 ERD';
   return '직접 생성한 HTML 문서';
@@ -111,6 +112,7 @@ export default function HomePage() {
                 <div className="flex flex-wrap gap-2">
                   <Badge variant="outline" className="rounded-full px-3 py-1 text-[11px] uppercase tracking-wide text-muted-foreground">html</Badge>
                   {artifact.name.includes('architecture') ? <Badge variant="outline" className="rounded-full px-3 py-1 text-[11px] uppercase tracking-wide text-muted-foreground">architecture</Badge> : null}
+                  {artifact.name.includes('workflow') ? <Badge variant="outline" className="rounded-full px-3 py-1 text-[11px] uppercase tracking-wide text-muted-foreground">workflow</Badge> : null}
                   {artifact.name.includes('erd') ? <Badge variant="outline" className="rounded-full px-3 py-1 text-[11px] uppercase tracking-wide text-muted-foreground">erd</Badge> : null}
                 </div>
                 <div className="flex items-center justify-between gap-3">
