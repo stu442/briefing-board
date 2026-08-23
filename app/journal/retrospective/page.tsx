@@ -13,7 +13,8 @@ export default async function RetrospectivePage({ searchParams }: { searchParams
   const params = await searchParams;
   const defaultName = getCurrentWeeklyRetrospectiveName();
   const notes = listRetrospectiveNotes();
-  const selected = params.fresh === '1'
+  const hasCurrentNote = notes.some((note) => note.name === defaultName);
+  const selected = params.fresh === '1' && !hasCurrentNote
     ? { name: defaultName, content: getWeeklyRetrospectiveTemplate(), updatedAt: '' }
     : (params.note ? readRetrospectiveNote(params.note) : null) || notes[0] || { name: defaultName, content: getWeeklyRetrospectiveTemplate(), updatedAt: '' };
 
@@ -31,7 +32,7 @@ export default async function RetrospectivePage({ searchParams }: { searchParams
       <aside className="retrospective-list">
         <div className="mb-4 flex items-center justify-between">
           <p className="journal-section-label">VAULT NOTES</p>
-          <Link href="/journal/retrospective?fresh=1" className="retrospective-new"><Plus className="size-3.5" /> 이번 주</Link>
+          {hasCurrentNote ? null : <Link href="/journal/retrospective?fresh=1" className="retrospective-new"><Plus className="size-3.5" /> 이번 주</Link>}
         </div>
         <div className="space-y-2">
           {notes.map((note) => <Link key={note.name} href={`/journal/retrospective?note=${encodeURIComponent(note.name)}`} className={`retrospective-note-link ${note.name === selected.name ? 'is-active' : ''}`}>
