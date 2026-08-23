@@ -1,7 +1,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 
-import { Boxes, Clock3, ExternalLink, Files, PanelTop, Sparkles } from 'lucide-react';
+import { BookOpen, Boxes, Clock3, ExternalLink, Files, PanelTop, Sparkles } from 'lucide-react';
 
 import { Badge } from '@/components/ui/badge';
 import { LinkButton } from '@/components/ui/button';
@@ -70,17 +70,32 @@ export default function HomePage() {
         </div>
         <h1 className="text-balance text-3xl font-semibold tracking-tight md:text-5xl">민수 브리핑</h1>
         <p className="mt-3 max-w-3xl text-balance text-sm leading-6 text-muted-foreground md:text-base">
-          텔레그램은 입구, 읽기는 여기서. 매일 브리핑이 쌓이고 같은 날짜 페이지에 시장 업데이트까지 합쳐지는 개인 보드.
-          이제 생성한 다이어그램/ERD 같은 HTML 산출물도 여기서 같이 볼 수 있게 정리했다.
+          텔레그램은 입구, 읽기와 기록은 여기서. 매일 브리핑이 쌓이고 같은 날짜 페이지에 시장 업데이트까지 합쳐진다.
+          이제 저널 MVP도 붙여서 오늘 일기/사진 첨부/최근 노트 읽기까지 한 보드에서 바로 들어갈 수 있게 했다.
         </p>
         <div className="mt-5 flex flex-wrap items-center gap-3 text-sm text-muted-foreground">
           <span className="inline-flex items-center gap-2"><Clock3 className="size-4" /> 최근 렌더링 · {generatedAt}</span>
           <span className="inline-flex items-center gap-2"><Sparkles className="size-4" /> Next.js + TypeScript + shadcn-style UI</span>
           <span className="inline-flex items-center gap-2"><Files className="size-4" /> HTML 산출물 {artifacts.length}개</span>
         </div>
+        <div className="mt-5 flex flex-wrap gap-3">
+          <LinkButton href="/journal" variant="secondary">
+            저널 열기 <BookOpen className="size-4" />
+          </LinkButton>
+        </div>
       </section>
 
       <section className="mb-8">
+        <Card className="mb-6 border-border/70 bg-card/95">
+          <CardHeader>
+            <CardDescription>Journal MVP</CardDescription>
+            <CardTitle className="flex items-center gap-2 text-2xl"><BookOpen className="size-5" /> 오늘 일기 / 사진 / 최근 노트</CardTitle>
+          </CardHeader>
+          <CardContent className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+            <p className="max-w-2xl text-sm leading-6 text-muted-foreground">옵시디언 저널 볼트를 정본으로 유지한 채, 모바일에서 바로 적고 사진 붙이는 얇은 입력 화면을 붙였다.</p>
+            <LinkButton href="/journal" variant="secondary">저널로 이동</LinkButton>
+          </CardContent>
+        </Card>
         <div className="mb-4 flex items-end justify-between gap-3">
           <div>
             <p className="text-sm text-muted-foreground">Artifacts</p>

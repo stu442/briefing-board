@@ -19,6 +19,8 @@
     --border: 240 3.7% 15.9%;
     --input: 240 3.7% 15.9%;
     --ring: 240 4.9% 83.9%;
+    --journal-accent: 29 69% 62%;
+    --journal-surface: 240 9% 6%;
   }
 
   * {
@@ -41,4 +43,104 @@
   .text-balance {
     text-wrap: balance;
   }
+
+  .mask-fade-bottom {
+    mask-image: linear-gradient(to bottom, black 65%, transparent 100%);
+  }
+}
+
+@layer components {
+  .journal-shell {
+    @apply mx-auto min-h-screen max-w-6xl px-5 pb-16 pt-5 sm:px-8 md:pt-8;
+  }
+
+  .journal-nav {
+    @apply flex items-center justify-between border-b border-border/60 pb-4;
+  }
+
+  .journal-wordmark {
+    @apply text-lg font-semibold tracking-[-0.06em] text-foreground;
+  }
+
+  .journal-wordmark span { color: hsl(var(--journal-accent)); }
+
+  .journal-nav-link {
+    @apply inline-flex items-center gap-1 rounded-full px-2.5 py-1.5 text-xs hover:bg-secondary hover:text-foreground;
+  }
+
+  .journal-sync { @apply relative flex items-center gap-1.5; }
+  .journal-sync-state { @apply hidden items-center gap-1 rounded-full bg-secondary/60 px-2 py-1.5 text-[10px] text-muted-foreground sm:inline-flex; }
+  .journal-sync-state.is-clean { @apply text-foreground/75; }
+  .journal-sync-button { @apply inline-flex h-7 items-center gap-1 rounded-full px-2 text-[10px] font-medium text-muted-foreground transition hover:bg-secondary hover:text-foreground disabled:cursor-wait disabled:opacity-55; }
+  .journal-sync-message { @apply absolute right-0 top-9 z-10 w-60 rounded-lg border border-border/80 bg-card px-3 py-2 text-right text-[11px] leading-4 text-muted-foreground shadow-lg; }
+
+  .journal-hero { @apply max-w-2xl py-12 sm:py-16; }
+
+  .journal-eyebrow {
+    @apply mb-4 flex items-center gap-2 text-xs font-medium tracking-[0.12em] text-[hsl(var(--journal-accent))] uppercase;
+  }
+
+  .journal-hero h1 {
+    @apply text-5xl font-semibold leading-[0.97] tracking-[-0.065em] text-foreground sm:text-7xl;
+  }
+
+  .journal-hero h1 em {
+    @apply font-normal text-muted-foreground;
+    font-family: Georgia, 'Times New Roman', serif;
+  }
+
+  .journal-hero-copy { @apply mt-5 max-w-md text-sm leading-6 text-muted-foreground sm:text-base; }
+
+  .journal-main-grid { @apply grid gap-12 lg:grid-cols-[minmax(0,1.2fr)_minmax(19rem,0.8fr)] lg:gap-16; }
+
+  .journal-composer {
+    @apply rounded-[1.4rem] border border-border/80 bg-[hsl(var(--journal-surface))] shadow-[0_18px_60px_rgba(0,0,0,0.18)];
+  }
+
+  .journal-live-dot {
+    @apply rounded-full bg-[hsl(var(--journal-accent)/0.12)] px-2.5 py-1 text-[11px] font-medium text-[hsl(var(--journal-accent))];
+  }
+
+  .journal-textarea {
+    @apply min-h-[13rem] w-full resize-none border-0 bg-transparent p-0 text-base leading-8 text-foreground outline-none placeholder:text-muted-foreground/75 focus:ring-0;
+  }
+
+  .journal-photo-picker { @apply inline-flex cursor-pointer items-center gap-2 rounded-full px-2 py-2 text-xs text-muted-foreground transition hover:bg-secondary hover:text-foreground; }
+  .journal-save-button { @apply h-10 rounded-full bg-[hsl(var(--journal-accent))] px-5 text-[hsl(24_20%_11%)] hover:bg-[hsl(var(--journal-accent)/0.9)]; }
+
+  .journal-section-label { @apply text-[10px] font-semibold tracking-[0.16em] text-muted-foreground; }
+
+  .journal-today-card {
+    @apply block rounded-2xl border border-border/60 bg-card/50 p-5 transition hover:border-[hsl(var(--journal-accent)/0.45)] hover:bg-card/80;
+  }
+
+  .journal-today-card h1 { @apply text-xl; }
+  .journal-today-card h2 { @apply text-lg; }
+  .journal-today-card h3 { @apply text-base; }
+  .journal-today-card p { @apply text-sm leading-6; }
+
+  .journal-timeline { @apply border-t border-border/60 pt-7 lg:border-l lg:border-t-0 lg:pl-10 lg:pt-1; }
+  .journal-timeline h2 { @apply mt-1 text-2xl font-semibold tracking-[-0.04em]; }
+  .journal-note-list { @apply divide-y divide-border/60; }
+
+  .journal-note-row { @apply flex gap-3 py-4 first:pt-1 transition hover:rounded-xl hover:bg-secondary/45 hover:px-2; }
+  .journal-date-block { @apply flex w-10 shrink-0 flex-col pt-0.5 text-center; }
+  .journal-date-block strong { @apply text-xl font-medium leading-5 tracking-[-0.05em] text-foreground; }
+  .journal-date-block span { @apply mt-1 text-[10px] font-medium uppercase text-muted-foreground; }
+  .journal-note-preview { @apply line-clamp-2 text-sm leading-5 text-foreground/80; }
+
+  .journal-empty-state { @apply rounded-2xl border border-dashed border-border/70 px-5 py-9 text-center text-sm leading-6 text-muted-foreground; }
+  .journal-empty-state svg { @apply mx-auto mb-3 text-[hsl(var(--journal-accent))]; }
+
+  .journal-back-link { @apply inline-flex items-center gap-2 rounded-full px-2.5 py-1.5 text-xs text-muted-foreground hover:bg-secondary hover:text-foreground; }
+  .journal-reading-header { @apply max-w-3xl py-12 sm:py-16; }
+  .journal-reading-header h1 { @apply text-4xl font-semibold tracking-[-0.06em] sm:text-6xl; }
+  .journal-reading-grid { @apply grid gap-10 lg:grid-cols-[minmax(0,1fr)_22rem] lg:gap-16; }
+  .journal-reading-card { @apply min-w-0 rounded-[1.4rem] border border-border/70 bg-card/70 px-6 py-8 shadow-[0_18px_60px_rgba(0,0,0,0.14)] sm:px-10 sm:py-12; }
+  .journal-reading-card h1 { @apply mt-10 text-3xl font-semibold tracking-[-0.045em] first:mt-0; }
+  .journal-reading-card h2 { @apply mt-10 text-2xl font-semibold tracking-[-0.035em]; }
+  .journal-reading-card h3 { @apply mt-8 text-lg font-semibold; }
+  .journal-reading-card p { @apply text-[15px] leading-8 text-foreground/90 sm:text-base; }
+  .journal-reading-card ul { @apply text-[15px] leading-7 sm:text-base; }
+  .journal-reading-aside { @apply h-fit lg:sticky lg:top-6; }
 }

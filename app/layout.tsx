@@ -6,8 +6,8 @@ import '@/app/globals.css';
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-  title: '민수 브리핑',
-  description: 'Tailscale 내부 전용 개인 브리핑 보드',
+  title: '민수 보드',
+  description: 'Tailscale 내부 전용 개인 브리핑 + 저널 보드',
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
