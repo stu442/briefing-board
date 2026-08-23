@@ -242,6 +242,14 @@ export function saveJournalPhoto(args: { originalName: string; bytes: Uint8Array
   };
 }
 
+export function saveJournalNote(slug: string, content: string) {
+  const normalizedSlug = normalizeJournalSlug(slug);
+  const notePath = findExistingJournalNotePath(normalizedSlug) || getJournalNotePath(normalizedSlug);
+  ensureJournalDirectories();
+  fs.writeFileSync(notePath, content.trimEnd() + '\n', 'utf8');
+  return { slug: normalizedSlug, notePath };
+}
+
 export function appendJournalEntry(args: { slug?: string; text?: string; photoPaths?: string[]; date?: Date }) {
   const date = args.date ?? new Date();
   const slug = normalizeJournalSlug(args.slug || getTodayJournalSlug(date));

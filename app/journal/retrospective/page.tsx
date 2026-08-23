@@ -1,9 +1,8 @@
 import Link from 'next/link';
-import { CalendarRange, CheckCircle2, FileText, Plus } from 'lucide-react';
+import { CalendarRange, CheckCircle2, FileText, PencilLine, Plus } from 'lucide-react';
 
 import { JournalContent } from '@/components/journal-content';
 import { JournalLayout } from '@/components/journal-layout';
-import { MarkdownEditor } from '@/components/markdown-editor';
 import { parseJournalContent } from '@/lib/journal';
 import { getCurrentWeeklyRetrospectiveName, getWeeklyRetrospectiveTemplate, listRetrospectiveNotes, readRetrospectiveNote } from '@/lib/retrospective';
 
@@ -49,14 +48,7 @@ export default async function RetrospectivePage({ searchParams }: { searchParams
           <JournalContent blocks={parseJournalContent(selected.content)} />
         </article>
 
-        <form action="/api/journal/retrospective" method="post" className="journal-composer p-6 md:p-8">
-          <input type="hidden" name="note" value={selected.name} />
-          <div className="mb-6 flex flex-wrap items-end justify-between gap-3">
-            <div><p className="journal-section-label mb-2">MARKDOWN EDITOR</p><h2 className="text-xl font-semibold tracking-[-0.04em]">{selected.name.replace(/\.md$/, '')}</h2></div>
-            <button type="submit" className="journal-save-button">회고 저장</button>
-          </div>
-          <MarkdownEditor name="content" initialValue={selected.content} />
-        </form>
+        <div className="flex justify-end"><Link href={`/journal/retrospective/edit?note=${encodeURIComponent(selected.name)}`} className="retrospective-edit-button"><PencilLine className="size-4" /> 수정하기</Link></div>
       </div>
     </section>
   </JournalLayout>;

@@ -1,8 +1,8 @@
-import { CalendarDays, Camera, Clock3 } from 'lucide-react';
+import Link from 'next/link';
+import { CalendarDays, Camera, Clock3, PencilLine } from 'lucide-react';
 import { notFound } from 'next/navigation';
 
 import { JournalContent } from '@/components/journal-content';
-import { JournalEntryForm } from '@/components/journal-entry-form';
 import { JournalLayout } from '@/components/journal-layout';
 import { normalizeJournalSlug, parseJournalContent, readJournalNote } from '@/lib/journal';
 
@@ -30,8 +30,7 @@ export default async function JournalDetailPage({ params }: { params: Promise<{ 
           <JournalContent blocks={parseJournalContent(note.content)} />
         </article>
         <aside className="journal-reading-aside">
-          <p className="journal-section-label mb-3 block">ADD TO THIS DAY</p>
-          <JournalEntryForm slug={note.slug} compact />
+          <Link href={`/journal/edit/${note.slug}`} className="retrospective-edit-button"><PencilLine className="size-4" /> 수정하기</Link>
         </aside>
       </section>
     </JournalLayout>

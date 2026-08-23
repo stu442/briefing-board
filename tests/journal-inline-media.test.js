@@ -10,4 +10,6 @@ test('renders every adjacent photo reference from an existing daily note', async
   const html = await response.text();
   assert.match(html, /journal-media\/7D9B0A62-1504-4447-826E-E44E420E5452_1_105_c\.jpeg/);
   assert.match(html, /journal-media\/4AE47F3A-C4E2-4997-BCFF-938062FFC50A_1_102_o\.jpeg/);
+  assert.match(html, /수정하기/);
+  assert.doesNotMatch(html, /name="text"/);
 });

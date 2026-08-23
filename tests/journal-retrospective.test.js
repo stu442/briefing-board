@@ -8,7 +8,6 @@ test('retrospective screen connects existing vault notes and exposes a Markdown 
   assert.equal(response.status, 200);
   const html = await response.text();
   assert.match(html, /2026년 8월 4주차 회고/);
-  assert.match(html, /name="content"/);
-  assert.match(html, /Markdown 지원/);
-  assert.match(html, /회고 저장/);
+  assert.match(html, /수정하기/);
+  assert.doesNotMatch(html, /name="content"/);
 });
