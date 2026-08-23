@@ -1,5 +1,6 @@
 import { Camera, ImagePlus, PenLine, Send } from 'lucide-react';
 
+import { MarkdownEditor } from '@/components/markdown-editor';
 import { Button } from '@/components/ui/button';
 
 export function JournalEntryForm({ slug, compact = false }: { slug: string; compact?: boolean }) {
@@ -24,16 +25,7 @@ export function JournalEntryForm({ slug, compact = false }: { slug: string; comp
         <span className="journal-live-dot">지금</span>
       </div>
 
-      <label className="block">
-        <span className="sr-only">메모</span>
-        <textarea
-          name="text"
-          rows={compact ? 6 : 9}
-          autoFocus={!compact}
-          placeholder="지금 머릿속에 남아 있는 장면이나 생각을 적어봐. 한 문장이어도 충분해."
-          className="journal-textarea"
-        />
-      </label>
+      <MarkdownEditor name="text" initialValue="" />
 
       <div className="mt-5 flex flex-wrap items-center justify-between gap-4 border-t border-border/60 pt-4">
         <label className="journal-photo-picker">
