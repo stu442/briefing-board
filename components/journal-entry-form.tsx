@@ -35,7 +35,7 @@ export function JournalEntryForm({ slug, compact = false }: { slug: string; comp
         </label>
         <div className="flex items-center gap-3">
           <p className="hidden text-xs text-muted-foreground sm:block"><Camera className="mr-1 inline size-3.5" /> 여러 장 가능</p>
-          <Button type="submit" className="journal-save-button"><Send className="size-3.5" /> 기록하기</Button>
+          <Button type="submit" aria-label="기록 저장" title="기록 저장" className="journal-save-button"><Send className="size-3.5" /></Button>
         </div>
       </div>
     </form>
