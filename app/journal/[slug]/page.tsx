@@ -1,9 +1,9 @@
-import Link from 'next/link';
-import { ArrowLeft, CalendarDays, Camera, Clock3 } from 'lucide-react';
+import { CalendarDays, Camera, Clock3 } from 'lucide-react';
 import { notFound } from 'next/navigation';
 
 import { JournalContent } from '@/components/journal-content';
 import { JournalEntryForm } from '@/components/journal-entry-form';
+import { JournalLayout } from '@/components/journal-layout';
 import { normalizeJournalSlug, parseJournalContent, readJournalNote } from '@/lib/journal';
 
 export const dynamic = 'force-dynamic';
@@ -15,12 +15,7 @@ export default async function JournalDetailPage({ params }: { params: Promise<{ 
   if (!note) notFound();
 
   return (
-    <main className="journal-shell">
-      <header className="journal-nav">
-        <Link href="/journal" className="journal-back-link"><ArrowLeft className="size-4" /> 모든 기록</Link>
-        <Link href="/" className="journal-nav-link">브리핑 홈</Link>
-      </header>
-
+    <JournalLayout>
       <section className="journal-reading-header">
         <p className="journal-eyebrow"><CalendarDays className="size-3.5" /> {note.slug}</p>
         <h1>그날의 기록.</h1>
@@ -39,6 +34,6 @@ export default async function JournalDetailPage({ params }: { params: Promise<{ 
           <JournalEntryForm slug={note.slug} compact />
         </aside>
       </section>
-    </main>
+    </JournalLayout>
   );
 }

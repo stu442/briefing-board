@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { ArrowLeft, ArrowRight, BookOpenText, CalendarDays, Camera, ChevronRight } from 'lucide-react';
 
-import { JournalSyncControls } from '@/components/journal-sync-controls';
+import { JournalLayout } from '@/components/journal-layout';
 import { JournalViewSwitcher } from '@/components/journal-view-switcher';
 import { getTodayJournalSlug, listJournalNotes } from '@/lib/journal';
 
@@ -35,5 +35,5 @@ export default async function JournalHomePage({ searchParams }: { searchParams: 
 
   const timeline = <section className="journal-timeline rounded-3xl"><div className="mb-5 flex items-end justify-between gap-4"><div><p className="journal-section-label">YOUR DAYS</p><h2>지난 기록</h2></div><span className="text-xs text-muted-foreground">{recentNotes.length}개</span></div>{recentNotes.length === 0 ? <div className="journal-empty-state"><BookOpenText className="size-5" /><p>첫 문장을 남기면<br />여기에 하루가 쌓여.</p></div> : <div className="journal-note-list">{recentNotes.map((note) => <Link key={note.slug} href={note.href as never} className="journal-note-row group"><div className="journal-date-block"><strong>{formatKoreanDate(note.slug, { day: '2-digit' })}</strong><span>{formatKoreanDate(note.slug, { month: 'short' })}</span></div>{note.coverImage ? <img src={note.coverImage} alt="" className="size-12 shrink-0 rounded-lg object-cover" /> : null}<div className="min-w-0 flex-1"><div className="mb-1 flex items-center gap-2 text-xs text-muted-foreground"><CalendarDays className="size-3" /> {formatKoreanDate(note.slug, { weekday: 'short' })}{note.photoCount > 0 ? <span className="inline-flex items-center gap-1"><Camera className="size-3" /> {note.photoCount}</span> : null}</div><p className="journal-note-preview">{note.preview}</p></div><ChevronRight className="mt-1 size-4 shrink-0 text-muted-foreground transition-transform group-hover:translate-x-0.5" /></Link>)}</div>}</section>;
 
-  return <main className="journal-shell"><header className="journal-nav"><Link href="/journal" className="journal-wordmark">aurel<span>.</span></Link><div className="flex items-center gap-2 sm:gap-3"><Link href="/journal/write" className="journal-nav-link">글쓰기</Link><Link href="/journal/retrospective" className="journal-nav-link">회고</Link><JournalSyncControls /></div></header><JournalViewSwitcher calendar={calendar} timeline={timeline} /></main>;
+  return <JournalLayout><JournalViewSwitcher calendar={calendar} timeline={timeline} /></JournalLayout>;
 }
