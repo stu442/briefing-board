@@ -163,8 +163,10 @@
   .markdown-mode-switch button { @apply h-7 w-auto gap-1 px-2 text-[11px]; }
   .markdown-mode-switch button.is-active { @apply bg-background text-foreground shadow-sm; }
   .markdown-editor-input { @apply min-h-[28rem] w-full resize-y border-0 bg-transparent p-2 font-mono text-sm leading-7 text-foreground outline-none placeholder:text-muted-foreground focus:ring-0; }
+  .markdown-editor-input.is-live { @apply min-h-[16rem] border-b border-border/60 pb-4; }
   .markdown-editor-preview { @apply min-h-[28rem] whitespace-pre-wrap p-2 font-sans text-sm leading-7 text-foreground/90; }
   .markdown-rendered-preview { @apply min-h-[28rem] space-y-4 p-2 text-sm leading-7 text-foreground/90; }
+  .markdown-editor-input.is-live + .markdown-rendered-preview { @apply min-h-[12rem] pt-5; }
   .markdown-rendered-preview h1 { @apply text-2xl font-semibold tracking-tight; }
   .markdown-rendered-preview h2 { @apply text-xl font-semibold tracking-tight; }
   .markdown-rendered-preview h3 { @apply text-lg font-semibold; }

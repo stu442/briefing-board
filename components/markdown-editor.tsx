@@ -41,7 +41,7 @@ function MarkdownPreview({ value }: { value: string }) {
 }
 
 export function MarkdownEditor({ name, initialValue }: { name: string; initialValue: string }) {
-  const [mode, setMode] = useState<'write' | 'preview'>('write');
+  const [mode, setMode] = useState<'write' | 'live' | 'preview'>('live');
   const [value, setValue] = useState(initialValue);
 
   return <div className="markdown-editor">
@@ -54,10 +54,12 @@ export function MarkdownEditor({ name, initialValue }: { name: string; initialVa
       </div>
       <div className="markdown-mode-switch" aria-label="에디터 보기 모드">
         <button type="button" className={mode === 'write' ? 'is-active' : ''} onClick={() => setMode('write')}><PencilLine className="size-3.5" /> 작성</button>
+        <button type="button" className={mode === 'live' ? 'is-active' : ''} onClick={() => setMode('live')}><Eye className="size-3.5" /> 라이브</button>
         <button type="button" className={mode === 'preview' ? 'is-active' : ''} onClick={() => setMode('preview')}><Eye className="size-3.5" /> 미리보기</button>
       </div>
     </div>
-    {mode === 'write' ? <textarea name={name} value={value} onChange={(event) => setValue(event.target.value)} className="markdown-editor-input" rows={22} spellCheck="true" /> : <MarkdownPreview value={value} />}
+    {mode !== 'preview' ? <textarea name={name} value={value} onChange={(event) => setValue(event.target.value)} className={`markdown-editor-input ${mode === 'live' ? 'is-live' : ''}`} rows={mode === 'live' ? 13 : 22} spellCheck="true" /> : null}
+    {mode !== 'write' ? <MarkdownPreview value={value} /> : null}
     {mode === 'preview' ? <input type="hidden" name={name} value={value} /> : null}
     <p className="mt-3 text-xs text-muted-foreground">Markdown 지원 · <code>## 제목</code> · <code>- 목록</code> · <code>**굵게**</code> · <code>&gt; 인용</code></p>
   </div>;

@@ -9,5 +9,6 @@ test('daily writing screen provides a Markdown editor', async () => {
   const html = await response.text();
   assert.match(html, /name="text"/);
   assert.match(html, /Markdown 지원/);
+  assert.match(html, /라이브/);
   assert.match(html, /미리보기/);
 });
