@@ -100,6 +100,7 @@ export function MarkdownEditor({ name, initialValue }: { name: string; initialVa
       <span className="text-[11px] text-muted-foreground">`#` + Space로 제목</span>
     </div>
     <div ref={editorRef} className="markdown-live-editor" contentEditable suppressContentEditableWarning role="textbox" aria-multiline="true" onInput={sync} onKeyDown={onKeyDown} dangerouslySetInnerHTML={{ __html: markdownToEditableHtml(initialValue) }} />
+    <textarea className="markdown-mobile-fallback" value={value} onChange={(event) => setValue(event.target.value)} placeholder="여기에 바로 써도 저장돼. 제목은 # 제목처럼 작성해줘." rows={14} />
     <input type="hidden" name={name} value={value} />
     <p className="mt-3 text-xs text-muted-foreground">Obsidian처럼 한 화면에서 바로 서식이 적용돼. 제목, 굵게, 목록, 인용을 지원해.</p>
   </div>;

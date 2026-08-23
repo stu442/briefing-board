@@ -168,6 +168,11 @@
   .markdown-live-editor ul { @apply my-3 list-disc space-y-1 pl-6; }
   .markdown-live-editor ol { @apply my-3 list-decimal space-y-1 pl-6; }
   .markdown-live-editor blockquote { @apply my-4 border-l-2 border-[hsl(var(--journal-accent))] pl-3 text-muted-foreground; }
+  .markdown-mobile-fallback { @apply hidden; }
+  @media (max-width: 767px) {
+    .markdown-live-editor { @apply hidden; }
+    .markdown-mobile-fallback { @apply block min-h-[20rem] w-full resize-y border-0 bg-transparent p-2 text-base leading-8 text-foreground outline-none placeholder:text-muted-foreground/75 focus:ring-0; }
+  }
   .markdown-mode-switch { @apply flex rounded-lg bg-secondary/70 p-0.5; }
   .markdown-mode-switch button { @apply h-7 w-auto gap-1 px-2 text-[11px]; }
   .markdown-mode-switch button.is-active { @apply bg-background text-foreground shadow-sm; }

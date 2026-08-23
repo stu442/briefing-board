@@ -26,6 +26,7 @@ export default async function RetrospectivePage({ searchParams }: { searchParams
 
     {params.saved === '1' ? <p className="journal-feedback"><CheckCircle2 className="size-4" /> Obsidian vault에 저장했어. 상단 동기화로 Git 백업까지 할 수 있어.</p> : null}
     {params.error ? <p className="journal-feedback is-error">저장하지 못했어. 제목과 내용을 다시 확인해줘.</p> : null}
+    <div className="mb-6 flex justify-end"><Link href={`/journal/retrospective/edit?note=${encodeURIComponent(selected.name)}`} className="retrospective-edit-button"><PencilLine className="size-4" /> 수정하기</Link></div>
 
     <section className="retrospective-grid">
       <aside className="retrospective-list">
@@ -47,8 +48,6 @@ export default async function RetrospectivePage({ searchParams }: { searchParams
           <p className="journal-section-label mb-5">READING · {selected.name.replace(/\.md$/, '')}</p>
           <JournalContent blocks={parseJournalContent(selected.content)} />
         </article>
-
-        <div className="flex justify-end"><Link href={`/journal/retrospective/edit?note=${encodeURIComponent(selected.name)}`} className="retrospective-edit-button"><PencilLine className="size-4" /> 수정하기</Link></div>
       </div>
     </section>
   </JournalLayout>;
