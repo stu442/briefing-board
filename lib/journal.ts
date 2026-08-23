@@ -14,6 +14,7 @@ export type JournalNoteSummary = {
   updatedAt: string;
   preview: string;
   photoCount: number;
+  coverImage?: string;
 };
 
 export type JournalImageBlock = {
@@ -199,13 +200,15 @@ export function listJournalNotes(limit = 20): JournalNoteSummary[] {
       const content = fs.readFileSync(filePath, 'utf8');
       const stats = fs.statSync(filePath);
 
+      const imageReferences = extractImageReferences(content);
       return {
         slug,
         title: `${slug} journal`,
         href: getJournalHref(slug),
         updatedAt: stats.mtime.toLocaleString('ko-KR', { timeZone: KST_TIME_ZONE }),
         preview: buildPreview(content),
-        photoCount: extractImageReferences(content).length,
+        photoCount: imageReferences.length,
+        coverImage: imageReferences[0] ? toPublicMediaPath(imageReferences[0]) : undefined,
       };
     })
     .sort((a, b) => b.slug.localeCompare(a.slug))
@@ -268,15 +271,16 @@ export function appendJournalEntry(args: { slug?: string; text?: string; photoPa
 
 export function resolveJournalMediaPath(originalPath: string) {
   const normalized = originalPath.replace(/^\.\//, '').replace(/^\/+/, '').replace(/\\/g, '/');
+  const vaultRoot = getJournalVaultPath();
   const attachmentRoot = getJournalAttachmentDir();
-  const withoutPrefix = normalized.replace(/^99-Attachments\//, '');
-  const absolutePath = path.resolve(attachmentRoot, withoutPrefix);
+  const attachmentCandidate = path.resolve(attachmentRoot, normalized.replace(/^99-Attachments\//, ''));
+  const sourceCandidate = path.resolve(vaultRoot, 'src', path.basename(normalized));
 
-  if (!absolutePath.startsWith(path.resolve(attachmentRoot) + path.sep) && absolutePath !== path.resolve(attachmentRoot)) {
-    return null;
-  }
+  const isInside = (candidate: string, root: string) => candidate.startsWith(path.resolve(root) + path.sep);
+  if (isInside(attachmentCandidate, attachmentRoot) && fs.existsSync(attachmentCandidate)) return attachmentCandidate;
+  if (isInside(sourceCandidate, path.join(vaultRoot, 'src')) && fs.existsSync(sourceCandidate)) return sourceCandidate;
 
-  return absolutePath;
+  return null;
 }
 
 export function extractImageReferences(content: string) {
@@ -326,13 +330,14 @@ export function parseJournalContent(content: string): JournalBlock[] {
       continue;
     }
 
-    const wikiImageMatch = line.match(/^!\[\[([^\]]+)\]\]$/);
-    if (wikiImageMatch) {
+    const wikiImageMatches = [...line.matchAll(/!\[\[([^\]]+)\]\]/g)];
+    if (wikiImageMatches.length && line.replace(/!\[\[[^\]]+\]\]/g, '').trim() === '') {
       flushParagraph();
       flushList();
-      const originalPath = wikiImageMatch[1];
-      const fileName = path.basename(originalPath);
-      blocks.push({ type: 'image', src: toPublicMediaPath(originalPath), alt: fileName, originalPath });
+      for (const match of wikiImageMatches) {
+        const originalPath = match[1];
+        blocks.push({ type: 'image', src: toPublicMediaPath(originalPath), alt: path.basename(originalPath), originalPath });
+      }
       continue;
     }
 

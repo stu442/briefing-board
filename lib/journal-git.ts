@@ -71,3 +71,15 @@ export async function pushJournalVault() {
   await git(['push', 'origin', 'main']);
   return getJournalGitStatus();
 }
+
+export async function syncJournalVault() {
+  const before = await getJournalGitStatus();
+  if (!before.clean) {
+    await git(['add', '--all']);
+    await git(['commit', '-m', 'journal sync']);
+  }
+
+  await git(['pull', '--rebase', 'origin', 'main']);
+  await git(['push', 'origin', 'main']);
+  return getJournalGitStatus();
+}
