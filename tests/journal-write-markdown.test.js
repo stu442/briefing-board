@@ -8,7 +8,7 @@ test('daily writing screen provides a Markdown editor', async () => {
   assert.equal(response.status, 200);
   const html = await response.text();
   assert.match(html, /name="text"/);
-  assert.match(html, /Markdown 지원/);
-  assert.match(html, /라이브/);
-  assert.match(html, /미리보기/);
+  assert.match(html, /contentEditable="true"/);
+  assert.match(html, /#` \+ Space로 제목/);
+  assert.match(html, /Obsidian처럼 한 화면/);
 });

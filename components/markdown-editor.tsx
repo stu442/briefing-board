@@ -1,66 +1,106 @@
 'use client';
 
-import { useState, type ReactNode } from 'react';
-import { Bold, Code2, Heading2, List, PencilLine, Eye } from 'lucide-react';
+import { useRef, useState, type KeyboardEvent } from 'react';
+import { Bold, Code2, Heading1, Heading2, List, ListOrdered, Quote } from 'lucide-react';
 
-function insertAtCursor(textarea: HTMLTextAreaElement, before: string, after = '') {
-  const start = textarea.selectionStart;
-  const end = textarea.selectionEnd;
-  const selected = textarea.value.slice(start, end) || '텍스트';
-  textarea.setRangeText(`${before}${selected}${after}`, start, end, 'end');
-  textarea.dispatchEvent(new Event('input', { bubbles: true }));
-  textarea.focus();
+function escapeHtml(value: string) {
+  return value.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 }
 
-function MarkdownPreview({ value }: { value: string }) {
-  const lines = value.split(/\r?\n/);
-  const blocks: ReactNode[] = [];
+function markdownToEditableHtml(markdown: string) {
+  const lines = markdown.replace(/\r\n/g, '\n').split('\n');
+  const html: string[] = [];
   let list: string[] = [];
+  let ordered = false;
   const flushList = () => {
     if (!list.length) return;
-    blocks.push(<ul key={`list-${blocks.length}`} className="space-y-1 pl-5">{list.map((item, index) => <li className="list-disc" key={index}>{item}</li>)}</ul>);
+    html.push(`<${ordered ? 'ol' : 'ul'}>${list.map((item) => `<li>${escapeHtml(item)}</li>`).join('')}</${ordered ? 'ol' : 'ul'}>`);
     list = [];
   };
   for (const line of lines) {
     const heading = line.match(/^(#{1,3})\s+(.+)$/);
-    const item = line.match(/^[-*]\s+(.+)$/);
-    if (!line.trim()) { flushList(); continue; }
-    if (item) { list.push(item[1]); continue; }
-    flushList();
-    if (heading) {
-      const Tag = `h${heading[1].length}` as 'h1' | 'h2' | 'h3';
-      blocks.push(<Tag key={`heading-${blocks.length}`}>{heading[2]}</Tag>);
-    } else if (line.startsWith('> ')) {
-      blocks.push(<blockquote key={`quote-${blocks.length}`}>{line.slice(2)}</blockquote>);
-    } else {
-      blocks.push(<p key={`paragraph-${blocks.length}`}>{line}</p>);
+    const bullet = line.match(/^[-*]\s+(.+)$/);
+    const numbered = line.match(/^\d+\.\s+(.+)$/);
+    if (bullet || numbered) {
+      const nextOrdered = Boolean(numbered);
+      if (list.length && ordered !== nextOrdered) flushList();
+      ordered = nextOrdered;
+      list.push((bullet || numbered)![1]);
+      continue;
     }
+    flushList();
+    if (!line.trim()) continue;
+    if (heading) html.push(`<h${heading[1].length}>${escapeHtml(heading[2])}</h${heading[1].length}>`);
+    else if (line.startsWith('> ')) html.push(`<blockquote>${escapeHtml(line.slice(2))}</blockquote>`);
+    else html.push(`<p>${escapeHtml(line)}</p>`);
   }
   flushList();
-  return <div className="markdown-rendered-preview">{blocks.length ? blocks : '아직 쓴 내용이 없어.'}</div>;
+  return html.join('') || '<p><br></p>';
+}
+
+function nodeToMarkdown(node: ChildNode): string {
+  if (node.nodeType === Node.TEXT_NODE) return node.textContent?.trim() || '';
+  if (!(node instanceof HTMLElement)) return '';
+  const text = node.innerText.replace(/\n+$/g, '').trim();
+  if (!text) return '';
+  if (/^H[1-3]$/.test(node.tagName)) return `${'#'.repeat(Number(node.tagName.slice(1)))} ${text}`;
+  if (node.tagName === 'BLOCKQUOTE') return `> ${text}`;
+  if (node.tagName === 'UL') return Array.from(node.children).map((item) => `- ${(item as HTMLElement).innerText.trim()}`).join('\n');
+  if (node.tagName === 'OL') return Array.from(node.children).map((item, index) => `${index + 1}. ${(item as HTMLElement).innerText.trim()}`).join('\n');
+  return text;
+}
+
+function editorToMarkdown(editor: HTMLDivElement) {
+  return Array.from(editor.childNodes).map(nodeToMarkdown).filter(Boolean).join('\n\n');
 }
 
 export function MarkdownEditor({ name, initialValue }: { name: string; initialValue: string }) {
-  const [mode, setMode] = useState<'write' | 'live' | 'preview'>('live');
+  const editorRef = useRef<HTMLDivElement>(null);
   const [value, setValue] = useState(initialValue);
+
+  const sync = () => {
+    if (editorRef.current) setValue(editorToMarkdown(editorRef.current));
+  };
+  const command = (commandName: string, commandValue?: string) => {
+    editorRef.current?.focus();
+    document.execCommand(commandName, false, commandValue);
+    sync();
+  };
+  const onKeyDown = (event: KeyboardEvent<HTMLDivElement>) => {
+    if (event.key !== ' ') return;
+    const selection = window.getSelection();
+    const anchor = selection?.anchorNode;
+    const block = anchor?.parentElement?.closest('p,div');
+    if (!block) return;
+    const marker = block.textContent?.trim();
+    const tag = marker === '#' ? 'h1' : marker === '##' ? 'h2' : marker === '###' ? 'h3' : null;
+    if (!tag) return;
+    event.preventDefault();
+    const replacement = document.createElement(tag);
+    replacement.innerHTML = '<br>';
+    block.replaceWith(replacement);
+    const range = document.createRange();
+    range.selectNodeContents(replacement);
+    range.collapse(true);
+    selection?.removeAllRanges();
+    selection?.addRange(range);
+    sync();
+  };
 
   return <div className="markdown-editor">
     <div className="markdown-editor-toolbar">
       <div className="flex items-center gap-1">
-        <button type="button" title="제목" onClick={(event) => insertAtCursor(event.currentTarget.closest('.markdown-editor')!.querySelector('textarea')!, '## ')}><Heading2 className="size-4" /></button>
-        <button type="button" title="굵게" onClick={(event) => insertAtCursor(event.currentTarget.closest('.markdown-editor')!.querySelector('textarea')!, '**', '**')}><Bold className="size-4" /></button>
-        <button type="button" title="목록" onClick={(event) => insertAtCursor(event.currentTarget.closest('.markdown-editor')!.querySelector('textarea')!, '- ')}><List className="size-4" /></button>
-        <button type="button" title="인용" onClick={(event) => insertAtCursor(event.currentTarget.closest('.markdown-editor')!.querySelector('textarea')!, '> ')}><Code2 className="size-4" /></button>
+        <button type="button" title="제목 1" onMouseDown={(event) => event.preventDefault()} onClick={() => command('formatBlock', 'h1')}><Heading1 className="size-4" /></button>
+        <button type="button" title="제목 2" onMouseDown={(event) => event.preventDefault()} onClick={() => command('formatBlock', 'h2')}><Heading2 className="size-4" /></button>
+        <button type="button" title="굵게" onMouseDown={(event) => event.preventDefault()} onClick={() => command('bold')}><Bold className="size-4" /></button>
+        <button type="button" title="글머리 목록" onMouseDown={(event) => event.preventDefault()} onClick={() => command('insertUnorderedList')}><List className="size-4" /></button>
+        <button type="button" title="번호 목록" onMouseDown={(event) => event.preventDefault()} onClick={() => command('insertOrderedList')}><ListOrdered className="size-4" /></button>
+        <button type="button" title="인용" onMouseDown={(event) => event.preventDefault()} onClick={() => command('formatBlock', 'blockquote')}><Quote className="size-4" /></button>
       </div>
-      <div className="markdown-mode-switch" aria-label="에디터 보기 모드">
-        <button type="button" className={mode === 'write' ? 'is-active' : ''} onClick={() => setMode('write')}><PencilLine className="size-3.5" /> 작성</button>
-        <button type="button" className={mode === 'live' ? 'is-active' : ''} onClick={() => setMode('live')}><Eye className="size-3.5" /> 라이브</button>
-        <button type="button" className={mode === 'preview' ? 'is-active' : ''} onClick={() => setMode('preview')}><Eye className="size-3.5" /> 미리보기</button>
-      </div>
+      <span className="text-[11px] text-muted-foreground">`#` + Space로 제목</span>
     </div>
-    {mode !== 'preview' ? <textarea name={name} value={value} onChange={(event) => setValue(event.target.value)} className={`markdown-editor-input ${mode === 'live' ? 'is-live' : ''}`} rows={mode === 'live' ? 13 : 22} spellCheck="true" /> : null}
-    {mode !== 'write' ? <MarkdownPreview value={value} /> : null}
-    {mode === 'preview' ? <input type="hidden" name={name} value={value} /> : null}
-    <p className="mt-3 text-xs text-muted-foreground">Markdown 지원 · <code>## 제목</code> · <code>- 목록</code> · <code>**굵게**</code> · <code>&gt; 인용</code></p>
+    <div ref={editorRef} className="markdown-live-editor" contentEditable suppressContentEditableWarning role="textbox" aria-multiline="true" onInput={sync} onKeyDown={onKeyDown} dangerouslySetInnerHTML={{ __html: markdownToEditableHtml(initialValue) }} />
+    <input type="hidden" name={name} value={value} />
+    <p className="mt-3 text-xs text-muted-foreground">Obsidian처럼 한 화면에서 바로 서식이 적용돼. 제목, 굵게, 목록, 인용을 지원해.</p>
   </div>;
 }
