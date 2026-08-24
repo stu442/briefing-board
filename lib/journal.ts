@@ -25,7 +25,7 @@ export type JournalImageBlock = {
 };
 
 export type JournalTextBlock = {
-  type: 'heading' | 'paragraph' | 'list';
+  type: 'heading' | 'paragraph' | 'list' | 'horizontalRule';
   level?: number;
   text?: string;
   items?: string[];
@@ -362,6 +362,13 @@ export function parseJournalContent(content: string): JournalBlock[] {
       flushList();
       const originalPath = markdownImageMatch[2];
       blocks.push({ type: 'image', src: toPublicMediaPath(originalPath), alt: markdownImageMatch[1] || path.basename(originalPath), originalPath });
+      continue;
+    }
+
+    if (/^(---|\*\*\*|___)$/.test(line)) {
+      flushParagraph();
+      flushList();
+      blocks.push({ type: 'horizontalRule' });
       continue;
     }
 

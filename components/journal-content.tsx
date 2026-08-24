@@ -22,6 +22,10 @@ export function JournalContent({ blocks }: { blocks: JournalBlock[] }) {
           );
         }
 
+        if (block.type === 'horizontalRule') {
+          return <hr key={index} className="my-8 border-0 border-t border-border/80" />;
+        }
+
         if (block.type === 'image') {
           return (
             <figure key={index} className="overflow-hidden rounded-2xl border border-border/70 bg-background/40">
