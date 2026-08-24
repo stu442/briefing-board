@@ -158,9 +158,13 @@ export function ensureJournalNote(slug = getTodayJournalSlug()) {
   ensureJournalDirectories();
   const notePath = findExistingJournalNotePath(slug) || getJournalNotePath(slug);
   if (!fs.existsSync(notePath)) {
-    fs.writeFileSync(notePath, getTemplateContent(), 'utf8');
+    fs.writeFileSync(notePath, '', 'utf8');
   }
   return notePath;
+}
+
+function removeStarterTemplate(content: string) {
+  return content.replace(/^# \d{4}-\d{2}-\d{2}\n\n## 지금 상태\n- 에너지:\n- 감정:\n- 머리를 차지하는 것:\n\n## 오늘 있었던 일\n-\n\n## 지금 떠오르는 생각\n-\n\n## 내려놓을 것\n-\n\n## 내일의 한 가지\n-\n\n?/, '');
 }
 
 export function readJournalNote(slug: string) {
@@ -254,6 +258,9 @@ export function appendJournalEntry(args: { slug?: string; text?: string; photoPa
   const date = args.date ?? new Date();
   const slug = normalizeJournalSlug(args.slug || getTodayJournalSlug(date));
   const notePath = ensureJournalNote(slug);
+  const existingContent = fs.readFileSync(notePath, 'utf8');
+  const contentWithoutTemplate = removeStarterTemplate(existingContent);
+  if (contentWithoutTemplate !== existingContent) fs.writeFileSync(notePath, contentWithoutTemplate, 'utf8');
   const trimmedText = (args.text || '').trim();
   const photoPaths = (args.photoPaths || []).filter(Boolean);
 
