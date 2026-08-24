@@ -31,7 +31,8 @@ function markdownToDocument(markdown: string) {
     }
     flushList();
     if (!line) continue;
-    if (heading) content.push({ type: 'heading', attrs: { level: heading[1].length }, content: [{ type: 'text', text: heading[2] }] });
+    if (/^(---|\*\*\*|___)$/.test(line)) content.push({ type: 'horizontalRule' });
+    else if (heading) content.push({ type: 'heading', attrs: { level: heading[1].length }, content: [{ type: 'text', text: heading[2] }] });
     else if (line.startsWith('> ')) content.push({ type: 'blockquote', content: [{ type: 'paragraph', content: [{ type: 'text', text: line.slice(2) }] }] });
     else content.push({ type: 'paragraph', content: [{ type: 'text', text: line }] });
   }
@@ -40,16 +41,28 @@ function markdownToDocument(markdown: string) {
 }
 
 function nodeText(node: Node): string {
-  if (node.type === 'text') return node.text || '';
-  return (node.content || []).map(nodeText).join(node.type === 'hardBreak' ? '\n' : '');
+  if (node.type === 'text') {
+    let value = node.text || '';
+    for (const mark of (node as Node & { marks?: { type: string }[] }).marks || []) {
+      if (mark.type === 'bold') value = `**${value}**`;
+      else if (mark.type === 'italic') value = `*${value}*`;
+      else if (mark.type === 'strike') value = `~~${value}~~`;
+      else if (mark.type === 'code') value = `\`${value}\``;
+    }
+    return value;
+  }
+  if (node.type === 'hardBreak') return '\n';
+  return (node.content || []).map(nodeText).join('');
 }
 
 function documentToMarkdown(nodes: Node[] = []): string {
   return nodes.map((node) => {
+    if (node.type === 'horizontalRule') return '---';
     if (node.type === 'heading') return `${'#'.repeat(Number(node.attrs?.level || 1))} ${nodeText(node)}`;
     if (node.type === 'blockquote') return `> ${documentToMarkdown(node.content).replace(/\n/g, '\n> ')}`;
     if (node.type === 'bulletList') return (node.content || []).map((item) => `- ${nodeText(item)}`).join('\n');
     if (node.type === 'orderedList') return (node.content || []).map((item, index) => `${index + 1}. ${nodeText(item)}`).join('\n');
+    if (node.type === 'codeBlock') return `\`\`\`\n${nodeText(node)}\n\`\`\``;
     return nodeText(node);
   }).filter(Boolean).join('\n\n');
 }

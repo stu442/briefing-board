@@ -173,6 +173,7 @@
   .tiptap-journal-editor ul { @apply my-3 list-disc space-y-1 pl-6; }
   .tiptap-journal-editor ol { @apply my-3 list-decimal space-y-1 pl-6; }
   .tiptap-journal-editor blockquote { @apply my-4 border-l-2 border-[hsl(var(--journal-accent))] pl-3 text-muted-foreground; }
+  .tiptap-journal-editor hr { @apply my-7 border-0 border-t border-border/80; }
   .markdown-mode-switch { @apply flex rounded-lg bg-secondary/70 p-0.5; }
   .markdown-mode-switch button { @apply h-7 w-auto gap-1 px-2 text-[11px]; }
   .markdown-mode-switch button.is-active { @apply bg-background text-foreground shadow-sm; }
