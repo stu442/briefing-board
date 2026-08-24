@@ -4,7 +4,7 @@ import type { JournalBlock } from '@/lib/journal';
 
 export function JournalContent({ blocks }: { blocks: JournalBlock[] }) {
   return (
-    <div className="space-y-5">
+    <div className="space-y-3">
       {blocks.map((block, index) => {
         if (block.type === 'heading') {
           if (block.level === 1) return <h1 key={index} className="text-2xl font-semibold tracking-tight text-foreground">{block.text}</h1>;
