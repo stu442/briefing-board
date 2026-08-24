@@ -8,5 +8,5 @@ test('daily writing screen provides a Markdown editor', async () => {
   assert.equal(response.status, 200);
   const html = await response.text();
   assert.match(html, /journal-composer/);
-  assert.match(html, /MarkdownEditor/);
+  assert.match(html, /JournalEntryForm/);
 });

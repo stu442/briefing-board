@@ -1,9 +1,13 @@
+'use client';
+
+import { useState } from 'react';
 import { Camera, ImagePlus, PenLine, Send } from 'lucide-react';
 
 import { MarkdownEditor } from '@/components/markdown-editor';
 import { Button } from '@/components/ui/button';
 
 export function JournalEntryForm({ slug, compact = false }: { slug: string; compact?: boolean }) {
+  const [photoCount, setPhotoCount] = useState(0);
   return (
     <form
       action="/api/journal/append"
@@ -30,8 +34,8 @@ export function JournalEntryForm({ slug, compact = false }: { slug: string; comp
       <div className="mt-5 flex flex-wrap items-center justify-between gap-4 border-t border-border/60 pt-4">
         <label className="journal-photo-picker">
           <ImagePlus className="size-4" />
-          <span>사진 추가</span>
-          <input name="photos" type="file" accept="image/*" multiple className="sr-only" />
+          <span>{photoCount ? `사진 ${photoCount}장 선택됨` : '사진 추가'}</span>
+          <input name="photos" type="file" accept="image/*" multiple capture="environment" className="sr-only" onChange={(event) => setPhotoCount(event.currentTarget.files?.length || 0)} />
         </label>
         <div className="flex items-center gap-3">
           <p className="hidden text-xs text-muted-foreground sm:block"><Camera className="mr-1 inline size-3.5" /> 여러 장 가능</p>
